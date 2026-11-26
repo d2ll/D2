@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Aegis 엔드게임 무기 티어표 한국어 비공식 번역판">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>아이기스 티어표 한글판</title>
+<style>
+/* layout: 왼쪽 고정 목차 + 가운데 850px 인포그래픽 기둥 (좁은 화면에서는 위쪽 고정 띠) */
+:root{
+  --bg:#05060a; --panel:#0f1016; --panel2:#1d1e29; --line:#2c2e3d; --fg:#eceef5; --dim:#8d90a3; --dim2:#61647a;
+  --primary:#f2d272; --special:#8fdc6a; --heavy:#c9a7f2; --ink:#140f1c;
+  --sans:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif; --mono:Consolas,"SF Mono",Menlo,monospace;
+  color-scheme:dark;
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 48px}
+.wrap{max-width:850px;margin:0 auto}
+.head{margin-bottom:16px}
+.head .k{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--heavy);font-weight:700}
+.head h1{display:inline-block;background:var(--heavy);color:var(--ink);font-size:clamp(24px,5vw,36px);font-weight:900;padding:2px 14px;margin:8px 0 6px;text-wrap:balance}
+.head p{color:var(--dim);font-size:13px;line-height:1.6;margin:0}
+.pg{display:block;position:relative;margin:0 0 24px;scroll-margin-top:16px}
+.pg img{display:block;width:100%;height:auto;background:var(--panel)}
+.hs{position:absolute;padding:0;margin:0;border:1px solid transparent;background:transparent;cursor:help;border-radius:3px}
+.hs:hover,.hs:focus-visible,.hs.on{border-color:var(--hs);background:rgba(242,210,114,.10);outline:none}
+.pg.special .hs{--hs:var(--special)}.pg.primary .hs{--hs:var(--primary)}.pg.heavy .hs{--hs:var(--heavy)}
+.tip{position:fixed;z-index:30;width:min(320px,calc(100vw - 32px));background:#151621;border:1px solid var(--line);border-top:3px solid var(--tc,var(--heavy));
+  box-shadow:0 10px 30px rgba(0,0,0,.55);padding:12px 14px;pointer-events:none;opacity:0;transition:opacity .08s}
+.tip.show{opacity:1}
+.tip.pinned{pointer-events:auto}
+.tip .th{display:flex;gap:10px;align-items:center}
+.tip .ti{width:40px;height:40px;flex:none;border-radius:50%;background-color:#2a3346;background-repeat:no-repeat}
+.tip .tn{font-size:16px;font-weight:800;line-height:1.25}
+.tip .tt{font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.5px}
+.tip .td{font-size:13px;line-height:1.6;margin-top:9px;white-space:pre-line;color:#d6d8e2}
+.tip .tx{position:absolute;top:6px;right:8px;background:none;border:0;color:var(--dim);font-size:18px;cursor:pointer;display:none;pointer-events:auto}
+.tip.pinned .tx{display:block}
+.hint{color:var(--dim);font-size:12px;margin-top:6px}
+/* 무기 검색 */
+.srch{margin-top:14px;background:var(--panel);border:1px solid var(--line);padding:10px;box-sizing:border-box}
+.srch label{display:block;font-size:11.5px;font-weight:800;letter-spacing:2px;color:var(--dim);margin-bottom:6px}
+.srch input{width:100%;box-sizing:border-box;background:#05060a;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:15px;padding:8px 10px;outline:none}
+.srch input:focus{border-color:var(--heavy)}
+.srch .cnt{font-size:11.5px;color:var(--dim2);margin:6px 2px 0;min-height:1em}
+.srch ul{list-style:none;margin:6px 0 0;padding:0;max-height:min(60vh,520px);overflow-y:auto}
+.srch li button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-left:3px solid transparent;color:var(--fg);font:inherit;padding:6px 6px;cursor:pointer}
+.srch li button:hover,.srch li button:focus-visible,.srch li button.sel{background:var(--panel2);border-left-color:var(--heavy);outline:none}
+.srch .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.srch .nm{flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25}
+.srch .nm mark{background:none;color:var(--primary)}
+.srch .nm small{display:block;font-weight:400;font-size:11px;color:var(--dim);margin-top:1px}
+.srch .tr{flex:none;width:20px;height:20px;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.tS{background:#f2c230}.tA{background:#b78be8}.tB{background:#5aa2e6}.tC{background:#4fbf6a}.tD{background:#9a9cab}.tE{background:#e0855a}.tF{background:#e05252}
+.flash{position:absolute;border:3px solid #fff;box-shadow:0 0 0 4px rgba(242,210,114,.6),0 0 24px rgba(242,210,114,.6);pointer-events:none;border-radius:4px;animation:fl 2.6s ease-out forwards}
+@keyframes fl{0%,60%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.flash{animation:none}}
+.srch mark{background:none;color:var(--primary)}
+.srch li.hd{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--dim);padding:8px 6px 3px;display:flex;align-items:center;gap:6px}
+.srch li.hd.pk{color:var(--fg);letter-spacing:0;font-size:12.5px;border-top:1px solid var(--line);margin-top:4px;padding-top:8px}
+.srch li.hd.pk small{color:var(--dim);font-weight:400}
+.srch li.hd em{margin-left:auto;font-style:normal;color:var(--dim2);font-family:var(--mono);font-weight:400}
+.srch .pki{width:18px;height:18px;border-radius:50%;flex:none;background-color:#2a3346;background-repeat:no-repeat}
+/* 티어·속성 필터 */
+.flt{margin-top:10px;border-top:1px solid var(--line);padding-top:4px}
+.flt .fl-t{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--dim);margin:6px 0 4px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:#05060a;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:12.5px;padding:4px 7px;cursor:pointer;opacity:.75}
+.chip.tc{padding:3px}
+.chip b{width:20px;height:20px;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:12px;font-weight:900}
+.chip i{width:9px;height:9px;border-radius:50%;flex:none}
+.chip:hover,.chip:focus-visible{opacity:1;border-color:var(--dim);outline:none}
+.chip[aria-pressed="true"]{opacity:1;border-color:var(--fg);background:var(--panel2);box-shadow:inset 0 -2px 0 var(--fg)}
+.fcnt{font-size:11.5px;color:var(--dim2);margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:6px;min-height:22px}
+.fcnt b{color:var(--fg)}
+.fcnt button{white-space:nowrap;flex:none;background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:11.5px;padding:2px 8px;cursor:pointer}
+.fcnt button:hover{color:var(--fg);border-color:var(--dim)}
+.dim{position:absolute;background:rgba(5,6,10,.76);pointer-events:none;display:none;border-radius:2px}
+.dim.off{display:block}
+.flash.sm{border-width:2px;box-shadow:0 0 0 3px rgba(242,210,114,.75),0 0 14px rgba(242,210,114,.6)}
+.toc a.none{opacity:.35}
+@media (min-width:1400px){
+  .srch{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));width:240px;margin:0;z-index:11;
+    max-height:calc(100vh - 92px);display:flex;flex-direction:column}
+  .srch>*{flex:none}
+  .srch ul{flex:1 1 auto;min-height:0;max-height:none}
+}
+/* 용사 대응 */
+.champ{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.cb{display:flex;flex-direction:column;align-items:center;gap:3px;background:#05060a;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:12px;font-weight:700;padding:7px 2px 6px;cursor:pointer;opacity:.8}
+.cb svg,.fg-t svg,.cinfo svg{width:22px;height:22px;color:var(--cc);flex:none}
+.fg-t svg,.cinfo svg{width:15px;height:15px}
+.cb:hover,.cb:focus-visible{opacity:1;border-color:var(--dim);outline:none}
+.cb[aria-pressed="true"]{opacity:1;border-color:var(--cc);background:var(--panel2);box-shadow:inset 0 -2px 0 var(--cc)}
+.cinfo{font-size:12px;line-height:1.55;color:var(--dim);margin-top:6px;background:#05060a;border-left:3px solid var(--cc,var(--line));padding:7px 8px}
+.cinfo b{color:var(--fg)}
+.cinfo .tg{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--fg);font:inherit;font-size:11.5px;padding:1px 6px;margin:3px 3px 0 0;cursor:pointer}
+.cinfo .tg:hover,.cinfo .tg[aria-pressed="true"]{border-color:var(--cc)}
+.cinfo .tg small{color:var(--dim2);margin-left:3px}
+.cinfo .src{display:block;margin-top:5px;font-size:11px;color:var(--dim2)}
+.cinfo .src a{color:var(--dim)}
+/* 프레임 목차 */
+.ftoc{background:var(--panel);border:1px solid var(--line);padding:12px;box-sizing:border-box;margin-top:14px}
+.ft-h{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;font-weight:800;letter-spacing:2px;color:var(--dim)}
+.ft-x{display:none;background:none;border:0;color:var(--dim);font-size:18px;line-height:1;cursor:pointer;padding:0 2px}
+.ft-d{font-size:11px;color:var(--dim2);line-height:1.5;margin:4px 0 8px}
+.fg+.fg{margin-top:10px}
+.fg-t{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:4px 4px 5px;color:var(--cc);border-bottom:1px solid var(--line);margin-bottom:2px}
+.fg-t span{margin-left:auto;color:var(--dim2);font-family:var(--mono);font-weight:400;font-size:10.5px}
+.fr{display:flex;justify-content:space-between;align-items:center;gap:6px;width:100%;background:none;border:0;border-left:3px solid transparent;color:var(--fg);font:inherit;font-size:13px;padding:5px 8px;cursor:pointer;text-align:left}
+.fr span{color:var(--dim2);font-size:10.5px;font-family:var(--mono)}
+.fr:hover,.fr:focus-visible{background:var(--panel2);outline:none}
+.fr[aria-expanded="true"]{background:var(--panel2);font-weight:700;border-left-color:var(--cc)}
+.fr.none{opacity:.35}
+.fsub{list-style:none;margin:0 0 4px;padding:0 0 0 10px}
+.fsub button{display:flex;justify-content:space-between;gap:6px;width:100%;background:none;border:0;color:var(--dim);font:inherit;font-size:12px;padding:3px 8px;cursor:pointer;text-align:left}
+.fsub button span{font-family:var(--mono);font-size:10.5px;color:var(--dim2)}
+.fsub button:hover,.fsub button:focus-visible{color:var(--fg);background:var(--panel2);outline:none}
+.fsub button.none{opacity:.35}
+.ftbtn{display:none;width:100%;margin-top:10px;background:var(--panel2);border:1px solid var(--line);color:var(--fg);font:inherit;font-size:12.5px;font-weight:700;padding:7px 8px;cursor:pointer;text-align:left}
+.ftbtn:hover{border-color:var(--dim)}
+@media (max-width:1399px){
+  .fg-list{display:flex;flex-wrap:wrap;gap:3px}
+  .fr{width:auto;border:1px solid var(--line);font-size:12.5px;padding:4px 8px}
+  .fr[aria-expanded="true"]{border-color:var(--cc)}
+  .fsub{flex-basis:100%;display:flex;flex-wrap:wrap;gap:3px;padding:4px 0}
+  .fsub[hidden]{display:none}
+  .fsub button{width:auto;border:1px solid var(--line)}
+}
+@media (min-width:1400px){
+  .ftoc{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:calc(max(16px,env(safe-area-inset-right,0px)) + 250px);width:184px;max-height:calc(100vh - 32px);overflow-y:auto;margin:0;z-index:10}
+}
+@media (min-width:1400px) and (max-width:1759px){
+  .ftoc{display:none;box-shadow:0 10px 30px rgba(0,0,0,.6);z-index:12}
+  .ftoc.open{display:block}
+  .ftbtn,.ft-x{display:block}
+}
+/* 출처 */
+.foot{margin-top:48px;border-top:1px solid var(--line);padding-top:22px;color:var(--dim);font-size:13px;line-height:1.7}
+.foot h2{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--heavy);margin:0 0 14px}
+.foot dl{display:grid;grid-template-columns:140px 1fr;gap:10px 18px;margin:0}
+.foot dt{color:var(--fg);font-weight:700}
+.foot dd{margin:0}
+.foot a{color:var(--primary);text-underline-offset:3px}
+.foot a:hover{color:var(--fg)}
+.foot .note{margin:18px 0 0;font-size:12px;color:var(--dim2)}
+@media (max-width:600px){.foot dl{grid-template-columns:1fr;gap:2px}.foot dd{margin-bottom:10px}}
+
+.toc{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));width:200px;max-height:calc(100vh - 32px);overflow-y:auto;
+  background:var(--panel);border:1px solid var(--line);padding:12px;z-index:10;box-sizing:border-box}
+.grp+.grp{margin-top:10px}
+.gt{display:flex;justify-content:space-between;font-size:11.5px;font-weight:800;letter-spacing:2px;padding:4px 8px;color:var(--ink);margin-bottom:2px}
+.gt.primary{background:var(--primary)}.gt.special{background:var(--special)}.gt.heavy{background:var(--heavy)}
+.toc a{display:flex;justify-content:space-between;gap:6px;padding:5px 8px;font-size:13px;color:var(--fg);text-decoration:none;border-left:3px solid transparent}
+.toc a span{color:var(--dim2);font-size:10.5px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.toc a:hover,.toc a:focus-visible{background:var(--panel2);outline:none}
+.toc a.on{background:var(--panel2);font-weight:700;border-left-color:var(--c)}
+.toc a.primary{--c:var(--primary)}.toc a.special{--c:var(--special)}.toc a.heavy{--c:var(--heavy)}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:10;background:var(--panel2);color:var(--fg);
+  border:1px solid var(--line);padding:9px 13px;font-size:13px;text-decoration:none}
+.totop:hover,.totop:focus-visible{background:var(--line)}
+
+@media (max-width:1300px){
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+  .toc{position:sticky;top:env(safe-area-inset-top,0px);left:auto;width:auto;max-height:none;display:flex;gap:6px;overflow-x:auto;align-items:center;
+    margin:-16px calc(-1 * max(16px,env(safe-area-inset-left,0px))) 16px;padding:8px max(16px,env(safe-area-inset-left,0px))}
+  .grp{display:flex;align-items:center;gap:2px;flex:none}.grp+.grp{margin-top:0}
+  .gt{margin:0 4px 0 0;white-space:nowrap}.gt span{margin-left:6px}
+  .toc a{white-space:nowrap;border-left:0;border-bottom:3px solid transparent;padding:5px 7px}
+  .toc a.on{border-bottom-color:var(--c)}
+  .toc a span{display:none}
+  .pg{scroll-margin-top:64px}
+}
+</style>
+
+<nav class="toc" id="toc" aria-label="무기 종류 목차"></nav>
+<main class="wrap">
+  <header class="head" id="top">
+    <div class="k">// AEGIS 엔드게임 분석 2026.10.07</div>
+    <h1>아이기스 티어표 한글판</h1>
+    <p>주무기·특수 무기·중화기 21종의 속성별 추천 무기와 특성. 목차에서 무기 종류를 누르면 해당 표로 이동합니다.</p>
+    <p class="hint">특성·기원 특성·부품에 마우스를 올리면 게임 내 설명이 뜹니다. 폰에서는 눌러서 보고, 다른 곳을 누르면 닫힙니다.<br>검색창에 무기나 특성 이름 일부를 치면 찾아 주고, 용사·티어·속성 버튼이나 프레임별 목차로 원하는 무기만 밝게 볼 수 있습니다.</p>
+    <div class="srch" role="search">
+      <label for="q">무기 · 특성 검색</label>
+      <input id="q" type="search" placeholder="예: 계절, 불, 광란" autocomplete="off" aria-controls="qr">
+      <div class="flt" aria-label="필터">
+        <div class="fl-t">용사 대응</div><div class="champ" id="fch"></div>
+        <div class="cinfo" id="cinfo"></div>
+        <div class="fl-t">티어</div><div class="chips" id="ft"></div>
+        <div class="fl-t">속성</div><div class="chips" id="fe"></div>
+        <div class="fcnt" id="fc"></div>
+      </div>
+      <div class="cnt" id="qc"></div>
+      <ul id="qr"></ul>
+    </div>
+    <nav class="ftoc" id="ftoc" aria-label="프레임별 목차"></nav>
+  </header>
+  <div id="pages"></div>
+  <footer class="foot" id="credit">
+    <h2>// 출처</h2>
+    <dl>
+      <dt>원본 티어표</dt>
+      <dd>Aegis · FRIENDGAME ANALYSIS — 엔드게임 무기 분석 (2026.10.07 기준)<br><a href="https://linktr.ee/TheAegisRelic" target="_blank" rel="noopener">linktr.ee/TheAegisRelic</a></dd>
+      <dt>원본 게시글</dt>
+      <dd>디시인사이드 데스티니 갤러리 —
+        <a href="https://gall.dcinside.com/mgallery/board/view/?id=destiny&amp;no=2894273" target="_blank" rel="noopener">주무기 편</a> ·
+        <a href="https://gall.dcinside.com/mgallery/board/view/?id=destiny&amp;no=2894275" target="_blank" rel="noopener">특수 무기 편</a> ·
+        <a href="https://gall.dcinside.com/mgallery/board/view/?id=destiny&amp;no=2894277" target="_blank" rel="noopener">중화기 편</a></dd>
+      <dt>한국어 명칭 · 설명</dt>
+      <dd>번지 공식 한국어 게임 데이터 (<a href="https://www.light.gg/" target="_blank" rel="noopener">light.gg</a> 데이터베이스에서 확인)</dd>
+      <dt>아이콘</dt>
+      <dd>Destiny 2 게임 내 무기·특성 아이콘 © Bungie, Inc.</dd>
+    </dl>
+    <p class="note">이 페이지는 원본 티어표를 한국어로 옮긴 비공식 번역본입니다. 티어 평가와 분석은 원작자의 것이며, 번역 과정에서 생긴 오류는 원작자와 무관합니다. † 표시는 공식 한국어 명칭을 확인하지 못한 용어입니다. Destiny 2는 Bungie, Inc.의 상표입니다.</p>
+  </footer>
+</main>
+<a class="totop" href="#top">▲ 맨 위로</a>
+
+<script>
+const P=[
+ ["primary","기관단총","051",2534],["primary","보조무기","035",2598],["primary","자동 소총","059",2621],["primary","정찰 소총","047",2540],["primary","펄스 소총","056",2748],["primary","핸드 캐논","066",2580],["primary","활","028",2226],
+ ["special","산탄총","058",2802],["special","저격총","055",2477],["special","글레이브","013",2003],["special","융합 소총","042",2500],["special","추적 소총","011",1786],["special","로켓 보조무기","008",1375],["special","브리치 유탄 발사기","032",2497],["special","특수 프레임","004",1406],
+ ["heavy","검","041",2796],["heavy","기관총","034",2493],["heavy","로켓 발사기","032",2464],["heavy","선형 융합 소총","019",2159],["heavy","중화기 유탄 발사기","025",2344],["heavy","특수 프레임","004",1349]
+];
+const G=[["primary","주무기"],["special","특수 무기"],["heavy","중화기"]];
+const id=i=>"w"+String(i+1).padStart(2,"0");
+document.getElementById("pages").innerHTML=P.map((p,i)=>
+  `<section class="pg" id="${id(i)}"><img src="img/${String(i+1).padStart(2,"0")}.png" width="850" height="${p[3]}" alt="${G.find(g=>g[0]===p[0])[1]} · ${p[1]} 티어표" ${i>1?'loading="lazy"':''}></section>`).join("");
+const nav=document.getElementById("toc");
+nav.innerHTML=G.map(([c,l])=>{
+  const items=P.map((p,i)=>[p,i]).filter(([p])=>p[0]===c);
+  return `<div class="grp"><div class="gt ${c}">${l}<span>${items.length}</span></div>`+items.map(([p,i])=>`<a class="${c}" href="#${id(i)}" data-id="${id(i)}">${p[1]}<span>${p[2]}</span></a>`).join("")+`</div>`;
+}).join("");
+const links=[...nav.querySelectorAll("a")];
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return;
+  links.forEach(a=>a.classList.toggle("on",a.dataset.id===e.target.id));
+  const on=nav.querySelector("a.on"); if(on && getComputedStyle(nav).position==="sticky") on.scrollIntoView({block:"nearest",inline:"center"});
+}),{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll(".pg").forEach(s=>io.observe(s));
+
+/* ---- 무기 검색 ---- */
+function setupSearch(POS,PK){
+  const ELN={kinetic:["물리","#d9dbe4"],void:["공허","#b98ae8"],solar:["태양","#f08a3c"],arc:["전기","#7ad7f0"],stasis:["시공","#5c8df0"],strand:["초월","#4fd38a"]};
+  const GL={primary:"주무기",special:"특수",heavy:"중화기"};
+  const TO={S:0,A:1,B:2,C:3,D:4,E:5,F:6};
+  const norm=s=>s.toLowerCase().replace(/[\s'’"·\-_.]/g,"");
+  /* 한영 자판: 한글 이름을 두벌식 키 입력으로 바꿔 두고, 영문으로 친 검색어도 키 입력/한글로 바꿔서 비교 */
+  const CJ="ㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+  const CK="r R rt s sw sg e E f fr fa fq ft fx fv fg a q Q qt t T d w W c z x v g k o i O j p u P h hk ho hl y n nj np nl b m ml l".split(" ");
+  const KJ={}; CJ.split("").forEach((j,n)=>{ if(CK[n].length===1) KJ[CK[n]]=j; });
+  const CHO="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ", JUNG="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+  const JONG=["","ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+  const VC={"ㅗㅏ":"ㅘ","ㅗㅐ":"ㅙ","ㅗㅣ":"ㅚ","ㅜㅓ":"ㅝ","ㅜㅔ":"ㅞ","ㅜㅣ":"ㅟ","ㅡㅣ":"ㅢ"};
+  const CC={"ㄱㅅ":"ㄳ","ㄴㅈ":"ㄵ","ㄴㅎ":"ㄶ","ㄹㄱ":"ㄺ","ㄹㅁ":"ㄻ","ㄹㅂ":"ㄼ","ㄹㅅ":"ㄽ","ㄹㅌ":"ㄾ","ㄹㅍ":"ㄿ","ㄹㅎ":"ㅀ","ㅂㅅ":"ㅄ"};
+  const strip=s=>s.replace(/[\s'’"·\-_.]/g,"");
+  const keyOf=ch=>/[QWERTOP]/.test(ch)?ch:ch.toLowerCase();
+  const toKeys=s=>[...strip(s)].map(ch=>{ const c=ch.charCodeAt(0);
+    if(c>=0xAC00&&c<=0xD7A3){ const i=c-0xAC00; return CK[CJ.indexOf(CHO[i/588|0])]+CK[CJ.indexOf(JUNG[(i%588)/28|0])]+(i%28?CK[CJ.indexOf(JONG[i%28])]:""); }
+    const j=CJ.indexOf(ch); return j>=0?CK[j]:keyOf(ch); }).join("");
+  const syllStarts=s=>{ const st=new Set(); let n=0; [...strip(s)].forEach(ch=>{ st.add(n); n+=toKeys(ch).length; }); st.add(n); return st; };
+  const isV=j=>JUNG.includes(j), isC=j=>j&&CHO.includes(j);
+  const compose=keys=>{ const J=[...keys].map(k=>KJ[k]||k); let out="", i=0;
+    while(i<J.length){ const c=J[i];
+      if(isC(c)&&isV(J[i+1])){ i++; let v=J[i++]; if(VC[v+J[i]]) v=VC[v+J[i++]];
+        let jo=""; if(JONG.includes(J[i])&&J[i]&&!isV(J[i+1])){ jo=J[i++]; if(CC[jo+J[i]]&&!isV(J[i+1])) jo=CC[jo+J[i++]]; }
+        out+=String.fromCharCode(0xAC00+CHO.indexOf(c)*588+JUNG.indexOf(v)*28+JONG.indexOf(jo));
+      } else if(isV(c)&&VC[c+J[i+1]]){ out+=VC[c+J[i+1]]; i+=2; } else { out+=c; i++; } }
+    return out; };
+  const pct=(el,r,H)=>{ el.style.left=(r.x/850*100)+"%"; el.style.top=(r.y/H*100)+"%"; el.style.width=(r.w/850*100)+"%"; el.style.height=(r.h/H*100)+"%"; };
+  const secs=[...document.querySelectorAll(".pg")];
+  /* 용사 대응: 업적의 기념비(2026.6.9) 업데이트부터 모든 무기의 고유 프레임에 내장 — 번지 개발자 생각(2026.5.30) 표 기준 */
+  const CHS={
+    B:["보호막",'#6fb6ff','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 4.5 5.5v5.8c0 4.8 3.2 8.8 7.5 10.2 4.3-1.4 7.5-5.4 7.5-10.2V5.5z"/><path d="M12 7v10"/></svg>'],
+    O:["과부하",'#c48bff','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M13.5 6.5 9 13h4l-2.5 4.5"/></svg>'],
+    U:["저지 불가",'#ff9b4a','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 20.2 7.2v9.6L12 21.5l-8.2-4.7V7.2z"/><path d="m8 14 4-4 4 4"/></svg>'],
+    N:["공지에 없음",'#8d90a3','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg>']};
+  const FCH={"Aggressive":"U","High-Impact":"U","High-Impact Longbow":"U","Precision":"B","Adaptive":"B","Lightweight":"O","Lightweight Bow":"O","Rapid-Fire":"O","Rapid":"O",
+    "Support":"O","Adaptive Burst":"B","Area Denial":"O","Double Fire":"U","Micro-Missile":"U","Wave":"U","Compressed Wave":"U","Heavy Burst":"U","Spread Shot":"O",
+    "Aggressive Burst":"U","Legacy PR-55":"B","Rocket-Assisted":"U","Disruption":"B","Caster":"B","Vortex":"O","Dynamic":"O","Balanced":"O"};
+  /* 무기 목록 + 필터용 어둡게 덮개, 특성 → 그 특성이 들어 있는 무기 칸 */
+  const W=[], PM=new Map();
+  POS.forEach(([H,pl,wl],i)=>{
+    const ws=(wl||[]).map(([ko,en,el,tier,x,y,w,h,fen,fko])=>{ const o={ko,en,el,tier,i,H,x,y,w,h,fe:fen,fk:fko,ch:FCH[fen]||"N",k:norm(ko),e:norm(en),kk:toKeys(ko),st:syllStarts(ko)};
+      const d=document.createElement("div"); d.className="dim"; pct(d,o,H); secs[i].appendChild(d); o.dim=d; W.push(o); return o; });
+    (pl||[]).forEach(([key,x,y,w,h,ix,iy,iw])=>{
+      const info=PK[key]; if(!info) return;
+      const cx=x+w/2, cy=y+h/2, o=ws.find(a=>cx>=a.x&&cx<=a.x+a.w&&cy>=a.y&&cy<=a.y+a.h); if(!o) return;
+      const lk=key.toLowerCase(); let p=PM.get(lk);
+      if(!p){ p={name:info.name,en:key,k:norm(info.name),e:norm(key),kk:toKeys(info.name),st:syllStarts(info.name),hits:new Map(),icon:null}; PM.set(lk,p); }
+      if(!p.icon&&iw) p.icon={i,H,ix,iy,iw};
+      if(!p.hits.has(o)) p.hits.set(o,[]); p.hits.get(o).push({x,y,w,h});
+    });
+  });
+  const q=document.getElementById("q"), ul=document.getElementById("qr"), cnt=document.getElementById("qc");
+  const ft=document.getElementById("ft"), fe=document.getElementById("fe"), fc=document.getElementById("fc");
+  const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const mark=(s,t)=>{ if(!t) return esc(s); const i=s.toLowerCase().indexOf(t.toLowerCase()); return i<0?esc(s):esc(s.slice(0,i))+"<mark>"+esc(s.slice(i,i+t.length))+"</mark>"+esc(s.slice(i+t.length)); };
+  const DEF="이름 일부만 쳐도 찾아요. 영문 이름, 한/영 전환 없이 친 글자(rPwjf → 계절)도 돼요";
+
+  /* ---- 필터 (용사 · 프레임 · 티어 · 속성, 모두 겹쳐 적용) ---- */
+  const fT=new Set(), fE=new Set(); let fC=null, fF=null;
+  const okNoF=w=>(!fT.size||fT.has(w.tier))&&(!fE.size||fE.has(w.el))&&(!fC||w.ch===fC);
+  const ok=w=>okNoF(w)&&(!fF||w.fk===fF);
+  const anyF=()=>!!(fT.size||fE.size||fC||fF);
+  const tiers=[...new Set(W.map(w=>w.tier))].sort((a,b)=>TO[a]-TO[b]);
+  ft.innerHTML=tiers.map(t=>`<button type="button" class="chip tc" data-t="${t}" aria-pressed="false" aria-label="${t} 티어"><b class="t${t}">${t}</b></button>`).join("");
+  fe.innerHTML=Object.keys(ELN).filter(e=>W.some(w=>w.el===e)).map(e=>`<button type="button" class="chip" data-e="${e}" aria-pressed="false"><i style="background:${ELN[e][1]}"></i>${ELN[e][0]}</button>`).join("");
+
+  /* 프레임 목록: 화면에 적힌 프레임 이름 기준으로 묶음 */
+  const FM=new Map();
+  W.forEach(w=>{ let f=FM.get(w.fk); if(!f){ f={ko:w.fk,ch:w.ch,n:0,sec:new Map()}; FM.set(w.fk,f); } f.n++; f.sec.set(w.i,(f.sec.get(w.i)||0)+1); });
+  const FL=[...FM.values()].sort((a,b)=>b.n-a.n||a.ko.localeCompare(b.ko,"ko"));
+  const fch=document.getElementById("fch"), cinfo=document.getElementById("cinfo"), ftoc=document.getElementById("ftoc");
+  fch.innerHTML=["B","O","U"].map(c=>`<button type="button" class="cb" data-c="${c}" aria-pressed="false" style="--cc:${CHS[c][1]}">${CHS[c][2]}${CHS[c][0]}</button>`).join("");
+  const SRC=`<span class="src">업적의 기념비(2026.6) 이후 모든 무기 고유 프레임에 내장 · 맞히기만 하면 적용 · <a href="https://www.bungie.net/7/ko/News/Article/dev_insights_weapons_artifacts_focusing_preview" target="_blank" rel="noopener">번지 공지</a></span>`;
+  function drawInfo(){
+    if(!fC){ cinfo.style.removeProperty("--cc"); cinfo.innerHTML=`용사 버튼을 누르면 그 용사를 상대할 수 있는 프레임의 무기만 밝게 보여요.${SRC}`; return; }
+    const fs=FL.filter(f=>f.ch===fC), n=fs.reduce((s,f)=>s+f.n,0);
+    cinfo.style.setProperty("--cc",CHS[fC][1]);
+    cinfo.innerHTML=`<b>${CHS[fC][0]} 용사</b> 대응 프레임 · 표 안 무기 <b>${n}</b>개<br>`+
+      fs.map(f=>`<button type="button" class="tg" data-f="${esc(f.ko)}" aria-pressed="${fF===f.ko}">${esc(f.ko)}<small>${f.n}</small></button>`).join("")+SRC;
+  }
+  const secName=i=>`${GL[P[i][0]]} · ${P[i][1]}`;
+  ftoc.innerHTML=`<div class="ft-h">프레임별 목차<button type="button" class="ft-x" aria-label="프레임 목차 닫기">×</button></div><div class="ft-d">프레임을 누르면 그 프레임 무기만 밝게 보이고, 아래 무기 종류를 누르면 그 칸으로 이동해요. 색은 대응하는 용사예요.</div>`+
+    ["B","O","U","N"].map(c=>{ const fs=FL.filter(f=>f.ch===c); if(!fs.length) return "";
+      return `<div class="fg" style="--cc:${CHS[c][1]}"><div class="fg-t">${CHS[c][2]}${c==="N"?"용사 대응 공지에 없음":CHS[c][0]+" 대응"}<span>${fs.reduce((s,f)=>s+f.n,0)}</span></div><div class="fg-list">`+
+        fs.map(f=>`<button type="button" class="fr" data-f="${esc(f.ko)}" aria-expanded="false">${esc(f.ko)}<span>${f.n}</span></button><ul class="fsub" hidden>`+
+          [...f.sec.keys()].sort((a,b)=>a-b).map(i=>`<li><button type="button" data-f="${esc(f.ko)}" data-i="${i}">${secName(i)}<span>${f.sec.get(i)}</span></button></li>`).join("")+`</ul>`).join("")+`</div></div>`; }).join("");
+  document.querySelector(".srch .flt").insertAdjacentHTML("afterend",`<button type="button" class="ftbtn" aria-controls="ftoc" aria-expanded="false">◂ 프레임별 목차 열기</button>`);
+  const ftbtn=document.querySelector(".srch .ftbtn");
+  const ftOpen=v=>{ ftoc.classList.toggle("open",v); ftbtn.setAttribute("aria-expanded",v); ftbtn.textContent=v?"▸ 프레임별 목차 닫기":"◂ 프레임별 목차 열기"; };
+  ftbtn.addEventListener("click",()=>ftOpen(!ftoc.classList.contains("open")));
+
+  function applyF(){
+    const on=anyF(); let n=0; const per=new Array(P.length).fill(0);
+    W.forEach(w=>{ const m=ok(w); w.dim.classList.toggle("off",on&&!m); if(m){ n++; per[w.i]++; } });
+    links.forEach(a=>{ const i=+a.dataset.id.slice(1)-1; a.classList.toggle("none",on&&!per[i]); a.querySelector("span").textContent=on?per[i]+"개":P[i][2]; });
+    ftoc.querySelectorAll(".fr").forEach(b=>{ const f=b.dataset.f, c=W.filter(w=>w.fk===f&&okNoF(w)).length;
+      b.classList.toggle("none",!c); b.setAttribute("aria-expanded",fF===f); b.nextElementSibling.hidden=fF!==f;
+      b.querySelector("span").textContent=(fT.size||fE.size||fC)?c:FM.get(f).n; });
+    ftoc.querySelectorAll(".fsub button").forEach(b=>{ const c=W.filter(w=>w.fk===b.dataset.f&&w.i===+b.dataset.i&&okNoF(w)).length;
+      b.classList.toggle("none",!c); b.querySelector("span").textContent=c; });
+    fch.querySelectorAll(".cb").forEach(b=>b.setAttribute("aria-pressed",fC===b.dataset.c));
+    fc.innerHTML=on?`<span>조건에 맞는 무기 <b>${n}</b>개${fF?` · ${esc(fF)}`:""}</span><button type="button" id="frs">초기화</button>`:`<span>눌러서 원하는 무기만 밝게 보기</span>`;
+    drawInfo(); render();
+  }
+  function chip(e){ const b=e.target.closest(".chip"); if(!b) return;
+    const set=b.dataset.t?fT:fE, v=b.dataset.t||b.dataset.e;
+    set.has(v)?set.delete(v):set.add(v); b.setAttribute("aria-pressed",set.has(v)); applyF(); }
+  ft.addEventListener("click",chip); fe.addEventListener("click",chip);
+  fch.addEventListener("click",e=>{ const b=e.target.closest(".cb"); if(!b) return;
+    fC=fC===b.dataset.c?null:b.dataset.c; if(fF&&fC&&FM.get(fF).ch!==fC) fF=null; applyF(); });
+  const pickF=f=>{ fF=fF===f?null:f; if(fF&&fC&&FM.get(fF).ch!==fC) fC=null; applyF(); };
+  cinfo.addEventListener("click",e=>{ const b=e.target.closest(".tg"); if(b) pickF(b.dataset.f); });
+  ftoc.addEventListener("click",e=>{
+    if(e.target.closest(".ft-x")){ ftOpen(false); return; }
+    const s=e.target.closest(".fsub button");
+    if(s){ const ws=W.filter(w=>w.fk===s.dataset.f&&w.i===+s.dataset.i&&ok(w)).sort((a,b)=>a.y-b.y||a.x-b.x); if(ws.length) go({w:ws[0]},ws.slice(1)); return; }
+    const b=e.target.closest(".fr"); if(b) pickF(b.dataset.f);
+  });
+  fc.addEventListener("click",e=>{ if(!e.target.closest("#frs")) return; fT.clear(); fE.clear(); fC=null; fF=null;
+    document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false")); applyF(); });
+
+  /* ---- 검색 ---- */
+  const MAX=150; let rows=[], sel=-1;
+  const sortW=(a,b)=>TO[a.tier]-TO[b.tier]||a.ko.localeCompare(b.ko,"ko");
+  const row=(w,n,raw,byName)=>{ const hl=w.ko.includes(raw)||!HZ||!w.ko.includes(HZ)?raw:HZ;
+    return `<li><button type="button" data-n="${n}"><span class="dot" style="background:${ELN[w.el][1]}"></span><span class="nm">${byName?mark(w.ko,hl):esc(w.ko)}<small>${GL[P[w.i][0]]} · ${P[w.i][1]} · ${ELN[w.el][0]} · ${esc(w.fk)}${byName&&w.e.includes(norm(raw))&&!w.k.includes(norm(raw))&&!(HZ&&w.ko.includes(HZ))?" · "+esc(w.en):""}</small></span><span class="tr t${w.tier}">${w.tier}</span></button></li>`; };
+  let HZ="", KS="";
+  /* 검색어와 맞는지: 그대로 / 영문 이름 / (영문 자판으로 친 한글) 키 입력 비교 */
+  /* 키 입력 일치는 글자 경계가 맞을 때만 (예: 'qnf'=불 → 불멸자 O, 부름 X / 'rPwj'=계저 → 계절 O) */
+  let HS=[];
+  const kfit=(o,p)=>HS.every(s=>o.st.has(p+s))&&![...o.st].some(x=>x>p+HS[HS.length-1]&&x<p+KS.length);
+  const kmatch=o=>{ if(KS.length<2) return false; for(let p=o.kk.indexOf(KS);p>=0;p=o.kk.indexOf(KS,p+1)) if(kfit(o,p)) return true; return false; };
+  const plain=o=>o.k.includes(T)||o.e.includes(T);
+  const hit=o=>plain(o)||kmatch(o);
+  const rank=o=>(o.k.startsWith(T)||(HZN&&o.k.startsWith(HZN)))?0:(o.k.includes(T)||o.e.includes(T)||(HZN&&o.k.includes(HZN)))?1:2;
+  let T="", HZN="";
+  const picon=p=>{ if(!p.icon) return `<span class="pki"></span>`; const {i,H,ix,iy,iw}=p.icon, s=18/iw;
+    return `<span class="pki" style="background-image:url(${secs[i].querySelector("img").getAttribute("src")});background-size:${850*s}px ${H*s}px;background-position:${-ix*s}px ${-iy*s}px"></span>`; };
+  function render(){
+    const raw=q.value.trim(), t=norm(raw); rows=[];
+    if(!t){ ul.innerHTML=""; cnt.textContent=DEF; sel=-1; return; }
+    T=t; const lat=/[a-z]/i.test(raw);
+    KS=lat?toKeys(raw):""; HZ=lat?compose(KS):""; if(!/[가-힣ㄱ-ㅣ]/.test(HZ)) HZ=""; HZN=HZ?norm(HZ):"";
+    HS=[...syllStarts(HZ)].slice(0,-1); if(!HZ||toKeys(HZ)!==KS) KS="";
+    const wh=W.filter(w=>ok(w)&&hit(w)).sort((a,b)=>rank(a)-rank(b)||a.ko.localeCompare(b.ko,"ko"));
+    const ph=[...PM.values()].filter(hit).map(p=>({p,ws:[...p.hits.keys()].filter(ok).sort(sortW)})).filter(x=>x.ws.length)
+      .sort((a,b)=>rank(a.p)-rank(b.p)||a.p.name.localeCompare(b.p.name,"ko"));
+    let html="";
+    if(wh.length){ html+=`<li class="hd">무기 이름 일치</li>`; wh.forEach(w=>{ if(rows.length<MAX){ html+=row(w,rows.length,raw,true); rows.push({w}); } }); }
+    ph.forEach(({p,ws})=>{ if(rows.length>=MAX) return;
+      const hz=!p.k.includes(t)&&HZ&&p.name.includes(HZ);
+      html+=`<li class="hd pk">${picon(p)}<span>${mark(p.name,hz?HZ:raw)}${p.k.includes(t)||hz||!p.e.includes(t)?"":` <small>${esc(p.en)}</small>`}</span><em>${ws.length}</em></li>`;
+      ws.forEach(w=>{ if(rows.length<MAX){ html+=row(w,rows.length,raw,false); rows.push({w,p}); } }); });
+    const on=anyF(), parts=[];
+    if(wh.length) parts.push(`무기 ${wh.length}개`); if(ph.length) parts.push(`특성 ${ph.length}개`);
+    const viaK=wh.some(w=>!plain(w))||ph.some(x=>!plain(x.p));
+    cnt.textContent=(viaK?`'${HZ}'(으)로도 찾음 · `:"")+(parts.length?parts.join(" · ")+" 찾음"+(on?" (필터 적용)":""):(on?"필터 조건에 맞는 결과가 없어요":"일치하는 무기·특성이 없어요"));
+    ul.innerHTML=html; sel=rows.length?0:-1; mk();
+  }
+  const mk=()=>ul.querySelectorAll("button").forEach(b=>b.classList.toggle("sel",+b.dataset.n===sel));
+  function flash(sec,r,H,cls){ const f=document.createElement("div"); f.className=cls; pct(f,r,H); sec.appendChild(f); setTimeout(()=>f.remove(),2700); }
+  function go({w,p},more){
+    const sec=secs[w.i], s=sec.querySelector("img").clientWidth/850;
+    const top=sec.getBoundingClientRect().top+scrollY+w.y*s;
+    const bar=getComputedStyle(nav).position==="sticky"?nav.offsetHeight:0;
+    scrollTo({top:Math.max(0,top-bar-90),behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"});
+    sec.querySelectorAll(".flash").forEach(f=>f.remove());
+    flash(sec,w,w.H,"flash");
+    if(p) p.hits.get(w).forEach(r=>flash(sec,r,w.H,"flash sm"));
+    (more||[]).forEach(o=>flash(sec,o,o.H,"flash"));
+  }
+  q.addEventListener("input",render);
+  q.addEventListener("keydown",e=>{
+    if(!rows.length) return;
+    if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault(); sel=(sel+(e.key==="ArrowDown"?1:-1)+rows.length)%rows.length; mk();
+      ul.querySelector("button.sel")?.scrollIntoView({block:"nearest"}); }
+    if(e.key==="Enter"&&sel>=0){ e.preventDefault(); go(rows[sel]); }
+  });
+  ul.addEventListener("click",e=>{ const b=e.target.closest("button"); if(b){ sel=+b.dataset.n; mk(); go(rows[sel]); } });
+  applyF();
+}
+
+/* ---- 특성 설명 창 ---- */
+const tip=document.createElement("div"); tip.className="tip"; tip.setAttribute("role","tooltip");
+tip.innerHTML=`<button class="tx" type="button" aria-label="닫기">×</button><div class="th"><div class="ti"></div><div><div class="tn"></div><div class="tt"></div></div></div><div class="td"></div>`;
+document.body.appendChild(tip);
+const COL={primary:"var(--primary)",special:"var(--special)",heavy:"var(--heavy)"};
+let pinned=null;
+function place(btn){
+  const r=btn.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight, vw=innerWidth, vh=innerHeight;
+  let x=r.left, y=r.bottom+8;
+  if(x+tw>vw-16) x=vw-16-tw; if(x<16) x=16;
+  if(y+th>vh-16) y=r.top-8-th; if(y<16) y=16;
+  tip.style.left=x+"px"; tip.style.top=y+"px";
+}
+function show(btn){
+  const d=btn._d;
+  tip.querySelector(".tn").textContent=d.name;
+  tip.querySelector(".tt").textContent=d.type||"";
+  tip.querySelector(".td").textContent=d.desc||"설명 정보가 없습니다.";
+  const ti=tip.querySelector(".ti");
+  if(d.icon){ const [ix,iy,iw,ih]=d.icon, s=40/iw, img=btn.closest(".pg").querySelector("img");
+    ti.style.backgroundImage=`url(${img.getAttribute("src")})`; ti.style.backgroundSize=`${850*s}px ${d.H*s}px`; ti.style.backgroundPosition=`${-ix*s}px ${-iy*s}px`; ti.style.visibility="visible";
+  } else ti.style.visibility="hidden";
+  tip.style.setProperty("--tc",COL[d.cat]);
+  tip.classList.add("show"); place(btn);
+}
+function hide(){ if(pinned){pinned.classList.remove("on"); pinned=null;} tip.classList.remove("show","pinned"); }
+tip.querySelector(".tx").addEventListener("click",hide);
+document.addEventListener("click",e=>{ if(!e.target.closest(".hs,.tip")) hide(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") hide(); });
+addEventListener("scroll",()=>{ if(pinned) place(pinned); else tip.classList.remove("show"); },{passive:true});
+
+Promise.all([fetch("pos.json").then(r=>r.json()),fetch("perks.json").then(r=>r.json())]).then(([POS,PK0])=>{
+  const PKL=Object.fromEntries(Object.entries(PK0).map(([k,v])=>[k.toLowerCase(),v])); const PK=new Proxy(PK0,{get:(o,k)=>o[k]||PKL[String(k).toLowerCase()]});
+  setupSearch(POS,PK);
+  document.querySelectorAll(".pg").forEach((sec,i)=>{
+    const [H,list]=POS[i], cat=P[i][0]; sec.classList.add(cat);
+    const frag=document.createDocumentFragment();
+    list.forEach(([k,x,y,w,h,ix,iy,iw,ih])=>{
+      const info=PK[k]; if(!info) return;
+      const b=document.createElement("button"); b.type="button"; b.className="hs";
+      b.style.left=(x/850*100)+"%"; b.style.top=(y/H*100)+"%"; b.style.width=(w/850*100)+"%"; b.style.height=(h/H*100)+"%";
+      b.setAttribute("aria-label",info.name+" 설명 보기");
+      b._d={name:info.name,type:info.type,desc:info.desc,cat,H,icon:iw?[ix,iy,iw,ih]:null};
+      b.addEventListener("mouseenter",()=>{ if(!pinned) show(b); });
+      b.addEventListener("mouseleave",()=>{ if(!pinned) tip.classList.remove("show"); });
+      b.addEventListener("focus",()=>{ if(!pinned) show(b); });
+      b.addEventListener("blur",()=>{ if(!pinned) tip.classList.remove("show"); });
+      b.addEventListener("click",e=>{ e.stopPropagation(); if(pinned===b){hide();return;} if(pinned) pinned.classList.remove("on"); pinned=b; b.classList.add("on"); show(b); tip.classList.add("pinned"); });
+      frag.appendChild(b);
+    });
+    sec.appendChild(frag);
+  });
+}).catch(()=>{});
+</script>
+
+</html>
