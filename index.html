@@ -91,8 +91,9 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);
 /* 용사 대응 */
 .champ{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
 .cb{display:flex;flex-direction:column;align-items:center;gap:3px;background:#05060a;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:12px;font-weight:700;padding:7px 2px 6px;cursor:pointer;opacity:.8}
-.cb svg,.fg-t svg,.cinfo svg{width:22px;height:22px;color:var(--cc);flex:none}
-.fg-t svg,.cinfo svg{width:15px;height:15px}
+.chi{display:block;flex:none;width:26px;height:26px;padding:3px;box-sizing:border-box;background:#000;border-radius:4px;box-shadow:0 0 0 1.5px var(--cc)}
+.chi svg{display:block;width:100%;height:100%}
+.fg-t .chi{width:18px;height:18px;padding:2px;border-radius:3px;box-shadow:0 0 0 1px var(--cc);margin-left:0}
 .cb:hover,.cb:focus-visible{opacity:1;border-color:var(--dim);outline:none}
 .cb[aria-pressed="true"]{opacity:1;border-color:var(--cc);background:var(--panel2);box-shadow:inset 0 -2px 0 var(--cc)}
 .cinfo{font-size:12px;line-height:1.55;color:var(--dim);margin-top:6px;background:#05060a;border-left:3px solid var(--cc,var(--line));padding:7px 8px}
@@ -120,9 +121,20 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);
 .fsub button span{font-family:var(--mono);font-size:10.5px;color:var(--dim2)}
 .fsub button:hover,.fsub button:focus-visible{color:var(--fg);background:var(--panel2);outline:none}
 .fsub button.none{opacity:.35}
-.ftbtn{display:none;width:100%;margin-top:10px;background:var(--panel2);border:1px solid var(--line);color:var(--fg);font:inherit;font-size:12.5px;font-weight:700;padding:7px 8px;cursor:pointer;text-align:left}
-.ftbtn:hover{border-color:var(--dim)}
-@media (max-width:1399px){
+/* 왼쪽 목차 맨 위 '용사별 프레임' 버튼 → 누르면 프레임 목차 창이 열림 */
+.ftoc{display:none;position:fixed;z-index:12;margin:0;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.ftoc.open{display:block}
+.ft-x{display:block}
+.chbtn{display:flex;justify-content:space-between;align-items:center;width:100%;box-sizing:border-box;margin:0 0 10px;background:#fff;color:#140f1c;border:0;
+  font:inherit;font-size:12.5px;font-weight:800;letter-spacing:1px;padding:7px 8px;cursor:pointer;text-align:left}
+.chbtn:hover,.chbtn:focus-visible{background:#e4e6ee;outline:none}
+.chbtn[aria-expanded="true"]{box-shadow:inset 0 -3px 0 #f2c230}
+@media (min-width:1301px){
+  .ftoc{top:calc(16px + env(safe-area-inset-top,0px));left:calc(max(16px,env(safe-area-inset-left,0px)) + 210px);width:210px;max-height:calc(100vh - 32px)}
+}
+@media (max-width:1300px){
+  .chbtn{width:auto;flex:none;margin:0 6px 0 0;white-space:nowrap;gap:6px}
+  .ftoc{top:calc(env(safe-area-inset-top,0px) + 56px);left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));max-height:calc(100vh - 76px)}
   .fg-list{display:flex;flex-wrap:wrap;gap:3px}
   .fr{width:auto;border:1px solid var(--line);font-size:12.5px;padding:4px 8px}
   .fr[aria-expanded="true"]{border-color:var(--cc)}
@@ -130,14 +142,48 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);
   .fsub[hidden]{display:none}
   .fsub button{width:auto;border:1px solid var(--line)}
 }
-@media (min-width:1400px){
-  .ftoc{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:calc(max(16px,env(safe-area-inset-right,0px)) + 250px);width:184px;max-height:calc(100vh - 32px);overflow-y:auto;margin:0;z-index:10}
-}
-@media (min-width:1400px) and (max-width:1759px){
-  .ftoc{display:none;box-shadow:0 10px 30px rgba(0,0,0,.6);z-index:12}
-  .ftoc.open{display:block}
-  .ftbtn,.ft-x{display:block}
-}
+/* 내 보관함 (번지 연동) */
+.vault{margin-top:10px;border-top:1px solid var(--line);padding-top:8px;font-size:12px;color:var(--dim);line-height:1.55}
+.vault .fl-t{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--dim);margin:0 0 4px}
+.vault b{color:var(--fg)}
+.vault .vb{display:block;width:100%;background:#16233a;border:1px solid #2f4a6b;color:var(--fg);font:inherit;font-size:13px;font-weight:700;padding:8px;cursor:pointer;margin-top:6px}
+.vault .vb:hover,.vault .vb:focus-visible{border-color:#6fb6ff;outline:none}
+.vault .vs{display:flex;gap:4px;margin-top:6px}
+.vault .vs button{flex:1;background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:11.5px;padding:3px 6px;cursor:pointer}
+.vault .vs button:hover{color:var(--fg);border-color:var(--dim)}
+.vault .chips{margin-top:6px}
+.vault .err{color:#ff8a7a}
+.vault small{display:block;color:var(--dim2);font-size:11px;margin-top:4px}
+.ownb{position:absolute;z-index:3;width:22px;height:22px;margin:4px 0 0 4px;border-radius:50%;background:#2e9e5b;color:#fff;font:800 11px/18px var(--sans);text-align:center;border:2px solid #05060a;padding:0;cursor:pointer;box-shadow:0 0 0 1px #2e9e5b}
+.ownb.god{background:#f2c230;color:#140f1c;box-shadow:0 0 0 1px #f2c230}
+.ownb:hover,.ownb:focus-visible{transform:scale(1.15);outline:none}
+.ownp{position:fixed;z-index:31;width:min(370px,calc(100vw - 32px));max-height:min(72vh,560px);overflow:auto;background:#151621;border:1px solid var(--line);border-top:3px solid #2e9e5b;
+  box-shadow:0 10px 30px rgba(0,0,0,.55);padding:12px 14px;font-size:12.5px;line-height:1.55;display:none;color:var(--fg)}
+.ownp.show{display:block}
+.ownp .x{position:absolute;top:6px;right:8px;background:none;border:0;color:var(--dim);font-size:18px;cursor:pointer}
+.ownp h3{margin:0 24px 2px 0;font-size:16px}
+.ownp .sub{color:var(--dim);font-size:11.5px}
+.ownp .rec{margin:8px 0 4px;padding:6px 8px;background:#0c0d13;border-left:3px solid #f2c230;font-size:12px}
+.ownp .cp{border-top:1px solid var(--line);padding:7px 0 6px}
+.ownp .cl{display:flex;justify-content:space-between;color:var(--dim);font-size:11.5px;margin-bottom:2px}
+.ownp .cl em{font-style:normal;font-weight:800}
+.ownp .cl em.g2{color:#f2c230}.ownp .cl em.g1{color:#5fd38d}.ownp .cl em.g0{color:var(--dim2)}
+.ownp .rw{display:flex;gap:6px}.ownp .rw>i{flex:none;width:30px;color:var(--dim2);font-style:normal;font-size:11px;padding-top:1px}
+.ownp .pk{display:inline-block;margin:0 6px 0 0;color:var(--dim)}
+.ownp .pk.r0{color:#f2c230;font-weight:800}.ownp .pk.r1{color:var(--fg);font-weight:700}
+.ownp .pk.on{text-decoration:underline;text-underline-offset:3px}
+.srch .ownm{flex:none;font-size:10.5px;font-weight:800;color:#5fd38d;border:1px solid #2e6b47;padding:0 4px;white-space:nowrap}
+.tip{width:min(360px,calc(100vw - 32px))}
+.tip .tc{margin-top:8px;border-top:1px solid var(--line);padding-top:6px;font-size:11.5px;line-height:1.5;color:#b9bccb;max-height:45vh;overflow:hidden}
+.tip.pinned .tc{overflow:auto}
+.tip .tc:empty{display:none}
+.tip .tc .ch{font-size:10.5px;letter-spacing:.5px;color:var(--dim2);margin-bottom:3px}
+.tip .tc .sp{height:5px}
+.tip .tc .ea{color:#f2c230;font-style:normal;font-size:9px;margin-right:2px}
+.tip .tc .ce{display:inline-block;width:7px;height:7px;border-radius:50%;margin:0 3px 1px 1px;vertical-align:middle}
+.tip .tc .bl{font-weight:700;color:var(--fg)}
+.tip .to{margin-top:8px;font-size:12px;color:#5fd38d;border-top:1px solid var(--line);padding-top:6px}
+.tip .to:empty{display:none}
 /* 출처 */
 .foot{margin-top:48px;border-top:1px solid var(--line);padding-top:22px;color:var(--dim);font-size:13px;line-height:1.7}
 .foot h2{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--heavy);margin:0 0 14px}
@@ -182,10 +228,11 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);
     <div class="k">// AEGIS 엔드게임 분석 2026.10.07</div>
     <h1>아이기스 티어표 한글판</h1>
     <p>주무기·특수 무기·중화기 21종의 속성별 추천 무기와 특성. 목차에서 무기 종류를 누르면 해당 표로 이동합니다.</p>
-    <p class="hint">특성·기원 특성·부품에 마우스를 올리면 게임 내 설명이 뜹니다. 폰에서는 눌러서 보고, 다른 곳을 누르면 닫힙니다.<br>검색창에 무기나 특성 이름 일부를 치면 찾아 주고, 용사·티어·속성 버튼이나 프레임별 목차로 원하는 무기만 밝게 볼 수 있습니다.</p>
+    <p class="hint">무기 이름에 마우스를 올리면 획득처가, 특성·기원 특성·부품에 올리면 게임 내 설명이 뜹니다. 폰에서는 눌러서 보고, 다른 곳을 누르면 닫힙니다.<br>검색창에 무기나 특성 이름 일부를 치면 찾아 주고, 용사·티어·속성 버튼이나 프레임별 목차로 원하는 무기만 밝게 볼 수 있습니다.</p>
     <div class="srch" role="search">
       <label for="q">무기 · 특성 검색</label>
       <input id="q" type="search" placeholder="예: 계절, 불, 광란" autocomplete="off" aria-controls="qr">
+      <div class="vault" id="vault" aria-live="polite"></div>
       <div class="flt" aria-label="필터">
         <div class="fl-t">용사 대응</div><div class="champ" id="fch"></div>
         <div class="cinfo" id="cinfo"></div>
@@ -211,6 +258,18 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);
         <a href="https://gall.dcinside.com/mgallery/board/view/?id=destiny&amp;no=2894277" target="_blank" rel="noopener">중화기 편</a></dd>
       <dt>한국어 명칭 · 설명</dt>
       <dd>번지 공식 한국어 게임 데이터 (<a href="https://www.light.gg/" target="_blank" rel="noopener">light.gg</a> 데이터베이스에서 확인)</dd>
+      <dt>특성 상세 수치</dt>
+      <dd>특성 설명창 아래 영문 수치는 <b>Clarity</b>의 커뮤니티 연구 자료이며, 이 페이지가 만든 내용이 아닙니다. 원문을 고치지 않고 그대로 보여 주며, 페이지를 열 때마다 최신본을 읽어 옵니다.<br>
+        <a href="https://d2clarity.com" target="_blank" rel="noopener">d2clarity.com</a> ·
+        수치 오류 제보: <a href="https://d2clarity.com/discord" target="_blank" rel="noopener">Clarity 디스코드</a> ·
+        <a href="https://url.d2clarity.com/ko-fi" target="_blank" rel="noopener">Clarity 후원</a></dd>
+      <dt>용사 대응 정보</dt>
+      <dd>번지 공식 공지 — <a href="https://www.bungie.net/7/ko/News/Article/dev_insights_weapons_artifacts_focusing_preview" target="_blank" rel="noopener">개발자 생각: 무기, 유물 및 집중 미리보기 (2026.5.30)</a><br>
+        공지 표에 없는 프레임 5종(정밀 납탄 · 영원히 함께 → 보호막, 사격 패키지 → 저지 불가, 속사 납탄 · MIDA 시너지 → 과부하)은 <a href="https://www.light.gg/" target="_blank" rel="noopener">light.gg</a> 기준입니다.</dd>
+      <dt>내 보관함 비교</dt>
+      <dd>번지 공식 API로 로그인한 사람의 보관함만 읽으며, 보관함 정보는 그 브라우저 화면에서만 씁니다. 무기·특성 번호는 번지 공식 게임 데이터 기준입니다.</dd>
+      <dt>무기 획득처</dt>
+      <dd>번지 공식 게임 데이터(컬렉션)의 획득처 문구입니다. 공식 문구가 없는 무기는 직접 입력한 문구나 표에 적힌 획득처를 보여 줍니다.</dd>
       <dt>아이콘</dt>
       <dd>Destiny 2 게임 내 무기·특성 아이콘 © Bungie, Inc.</dd>
     </dl>
@@ -221,9 +280,9 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);
 
 <script>
 const P=[
- ["primary","기관단총","051",2534],["primary","보조무기","035",2598],["primary","자동 소총","059",2621],["primary","정찰 소총","047",2540],["primary","펄스 소총","056",2748],["primary","핸드 캐논","066",2580],["primary","활","028",2226],
- ["special","산탄총","058",2802],["special","저격총","055",2477],["special","글레이브","013",2003],["special","융합 소총","042",2500],["special","추적 소총","011",1786],["special","로켓 보조무기","008",1375],["special","브리치 유탄 발사기","032",2497],["special","특수 프레임","004",1406],
- ["heavy","검","041",2796],["heavy","기관총","034",2493],["heavy","로켓 발사기","032",2464],["heavy","선형 융합 소총","019",2159],["heavy","중화기 유탄 발사기","025",2344],["heavy","특수 프레임","004",1349]
+ ["primary","기관단총","051",2534],["primary","보조무기","035",2598],["primary","자동 소총","059",2621],["primary","정찰 소총","047",2540],["primary","파동 소총","056",2748],["primary","핸드 캐논","066",2580],["primary","활","028",2226],
+ ["special","산탄총","058",2773],["special","저격총","055",2477],["special","월도","013",2003],["special","융합 소총","042",2500],["special","추적 소총","011",1786],["special","로켓 보조무기","008",1375],["special","유탄 발사기","032",2497],["special","특수 프레임","004",1406],
+ ["heavy","검","041",2796],["heavy","기관총","034",2493],["heavy","로켓 발사기","032",2464],["heavy","선형 융합 소총","019",2159],["heavy","유탄 발사기","025",2344],["heavy","특수 프레임","004",1349]
 ];
 const G=[["primary","주무기"],["special","특수 무기"],["heavy","중화기"]];
 const id=i=>"w"+String(i+1).padStart(2,"0");
@@ -273,17 +332,21 @@ function setupSearch(POS,PK){
   const secs=[...document.querySelectorAll(".pg")];
   /* 용사 대응: 업적의 기념비(2026.6.9) 업데이트부터 모든 무기의 고유 프레임에 내장 — 번지 개발자 생각(2026.5.30) 표 기준 */
   const CHS={
-    B:["보호막",'#6fb6ff','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 4.5 5.5v5.8c0 4.8 3.2 8.8 7.5 10.2 4.3-1.4 7.5-5.4 7.5-10.2V5.5z"/><path d="M12 7v10"/></svg>'],
-    O:["과부하",'#c48bff','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M13.5 6.5 9 13h4l-2.5 4.5"/></svg>'],
-    U:["저지 불가",'#ff9b4a','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 20.2 7.2v9.6L12 21.5l-8.2-4.7V7.2z"/><path d="m8 14 4-4 4 4"/></svg>'],
+    /* 아이콘: 게임 속 용사 표시와 비슷한 모양을 직접 그린 SVG (검은 네모 위 흰 도형) */
+    B:["보호막",'#6fb6ff','<span class="chi" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#fff" fill-rule="evenodd" d="M12 2.5 22.5 21h-21zM12 11 8.6 17.4h6.8z"/><path d="M2.6 17.6 9.2 6.4" stroke="#000" stroke-width="2.3"/></svg></span>'],
+    O:["과부하",'#c48bff','<span class="chi" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.6" fill="#fff"/><path d="M3.8 15.6 10.2 8.6l3.6 6.8 6.4-7" fill="none" stroke="#000" stroke-width="2.5"/></svg></span>'],
+    U:["저지 불가",'#ff9b4a','<span class="chi" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2.4" fill="#fff"/><path d="M1.5 16.5 16.5 1.5M7.5 22.5l15-15" stroke="#000" stroke-width="2.6"/></svg></span>'],
     N:["공지에 없음",'#8d90a3','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg>']};
   const FCH={"Aggressive":"U","High-Impact":"U","High-Impact Longbow":"U","Precision":"B","Adaptive":"B","Lightweight":"O","Lightweight Bow":"O","Rapid-Fire":"O","Rapid":"O",
     "Support":"O","Adaptive Burst":"B","Area Denial":"O","Double Fire":"U","Micro-Missile":"U","Wave":"U","Compressed Wave":"U","Heavy Burst":"U","Spread Shot":"O",
-    "Aggressive Burst":"U","Legacy PR-55":"B","Rocket-Assisted":"U","Disruption":"B","Caster":"B","Vortex":"O","Dynamic":"O","Balanced":"O"};
+    "Aggressive Burst":"U","Legacy PR-55":"B","Rocket-Assisted":"U","Disruption":"B","Caster":"B","Vortex":"O","Dynamic":"O","Balanced":"O",
+    /* 번지 공지 표에 없는 프레임 — light.gg 기준 */
+    "Pinpoint Slug":"B","Together Forever":"B","Shot Package":"U","Rapid-Fire Slug":"O","MIDA Synergy":"O"};
   /* 무기 목록 + 필터용 어둡게 덮개, 특성 → 그 특성이 들어 있는 무기 칸 */
   const W=[], PM=new Map();
   POS.forEach(([H,pl,wl],i)=>{
-    const ws=(wl||[]).map(([ko,en,el,tier,x,y,w,h,fen,fko])=>{ const o={ko,en,el,tier,i,H,x,y,w,h,fe:fen,fk:fko,ch:FCH[fen]||"N",k:norm(ko),e:norm(en),kk:toKeys(ko),st:syllStarts(ko)};
+    const ws=(wl||[]).map(([ko,en,el,tier,x,y,w,h,fen,fko,hx,hy,hw,hh,ix,iy,iw,ih,src],j)=>{ const o={ko,en,el,tier,i,j,H,x,y,w,h,fe:fen,fk:fko,own:null,god:false,
+        hd:hw?{x:hx,y:hy,w:hw,h:hh}:null, ic:iw?[ix,iy,iw,ih]:null, src:src||"",ch:FCH[fen]||"N",k:norm(ko),e:norm(en),kk:toKeys(ko),st:syllStarts(ko)};
       const d=document.createElement("div"); d.className="dim"; pct(d,o,H); secs[i].appendChild(d); o.dim=d; W.push(o); return o; });
     (pl||[]).forEach(([key,x,y,w,h,ix,iy,iw])=>{
       const info=PK[key]; if(!info) return;
@@ -301,10 +364,11 @@ function setupSearch(POS,PK){
   const DEF="이름 일부만 쳐도 찾아요. 영문 이름, 한/영 전환 없이 친 글자(rPwjf → 계절)도 돼요";
 
   /* ---- 필터 (용사 · 프레임 · 티어 · 속성, 모두 겹쳐 적용) ---- */
-  const fT=new Set(), fE=new Set(); let fC=null, fF=null;
-  const okNoF=w=>(!fT.size||fT.has(w.tier))&&(!fE.size||fE.has(w.el))&&(!fC||w.ch===fC);
+  const fT=new Set(), fE=new Set(); let fC=null, fF=null, fO=null;
+  const OWNF={own:w=>!!(w.own&&w.own.length),not:w=>!(w.own&&w.own.length),god:w=>w.god};
+  const okNoF=w=>(!fT.size||fT.has(w.tier))&&(!fE.size||fE.has(w.el))&&(!fC||w.ch===fC)&&(!fO||OWNF[fO](w));
   const ok=w=>okNoF(w)&&(!fF||w.fk===fF);
-  const anyF=()=>!!(fT.size||fE.size||fC||fF);
+  const anyF=()=>!!(fT.size||fE.size||fC||fF||fO);
   const tiers=[...new Set(W.map(w=>w.tier))].sort((a,b)=>TO[a]-TO[b]);
   ft.innerHTML=tiers.map(t=>`<button type="button" class="chip tc" data-t="${t}" aria-pressed="false" aria-label="${t} 티어"><b class="t${t}">${t}</b></button>`).join("");
   fe.innerHTML=Object.keys(ELN).filter(e=>W.some(w=>w.el===e)).map(e=>`<button type="button" class="chip" data-e="${e}" aria-pressed="false"><i style="background:${ELN[e][1]}"></i>${ELN[e][0]}</button>`).join("");
@@ -315,7 +379,7 @@ function setupSearch(POS,PK){
   const FL=[...FM.values()].sort((a,b)=>b.n-a.n||a.ko.localeCompare(b.ko,"ko"));
   const fch=document.getElementById("fch"), cinfo=document.getElementById("cinfo"), ftoc=document.getElementById("ftoc");
   fch.innerHTML=["B","O","U"].map(c=>`<button type="button" class="cb" data-c="${c}" aria-pressed="false" style="--cc:${CHS[c][1]}">${CHS[c][2]}${CHS[c][0]}</button>`).join("");
-  const SRC=`<span class="src">업적의 기념비(2026.6) 이후 모든 무기 고유 프레임에 내장 · 맞히기만 하면 적용 · <a href="https://www.bungie.net/7/ko/News/Article/dev_insights_weapons_artifacts_focusing_preview" target="_blank" rel="noopener">번지 공지</a></span>`;
+  const SRC=`<span class="src">업적의 기념비(2026.6) 이후 모든 무기 고유 프레임에 내장 · 맞히기만 하면 적용 · 번지 공지 · light.gg 기준 (출처는 맨 아래)</span>`;
   function drawInfo(){
     if(!fC){ cinfo.style.removeProperty("--cc"); cinfo.innerHTML=`용사 버튼을 누르면 그 용사를 상대할 수 있는 프레임의 무기만 밝게 보여요.${SRC}`; return; }
     const fs=FL.filter(f=>f.ch===fC), n=fs.reduce((s,f)=>s+f.n,0);
@@ -329,10 +393,13 @@ function setupSearch(POS,PK){
       return `<div class="fg" style="--cc:${CHS[c][1]}"><div class="fg-t">${CHS[c][2]}${c==="N"?"용사 대응 공지에 없음":CHS[c][0]+" 대응"}<span>${fs.reduce((s,f)=>s+f.n,0)}</span></div><div class="fg-list">`+
         fs.map(f=>`<button type="button" class="fr" data-f="${esc(f.ko)}" aria-expanded="false">${esc(f.ko)}<span>${f.n}</span></button><ul class="fsub" hidden>`+
           [...f.sec.keys()].sort((a,b)=>a-b).map(i=>`<li><button type="button" data-f="${esc(f.ko)}" data-i="${i}">${secName(i)}<span>${f.sec.get(i)}</span></button></li>`).join("")+`</ul>`).join("")+`</div></div>`; }).join("");
-  document.querySelector(".srch .flt").insertAdjacentHTML("afterend",`<button type="button" class="ftbtn" aria-controls="ftoc" aria-expanded="false">◂ 프레임별 목차 열기</button>`);
-  const ftbtn=document.querySelector(".srch .ftbtn");
-  const ftOpen=v=>{ ftoc.classList.toggle("open",v); ftbtn.setAttribute("aria-expanded",v); ftbtn.textContent=v?"▸ 프레임별 목차 닫기":"◂ 프레임별 목차 열기"; };
+  nav.insertAdjacentHTML("afterbegin",`<button type="button" class="chbtn" aria-controls="ftoc" aria-expanded="false">용사별 프레임<span aria-hidden="true">▸</span></button>`);
+  const ftbtn=nav.querySelector(".chbtn");
+  const narrow=()=>matchMedia("(max-width:1300px)").matches;
+  const ftOpen=v=>{ ftoc.classList.toggle("open",v); ftbtn.setAttribute("aria-expanded",v); ftbtn.querySelector("span").textContent=v?(narrow()?"▴":"◂"):(narrow()?"▾":"▸"); };
+  ftOpen(false);
   ftbtn.addEventListener("click",()=>ftOpen(!ftoc.classList.contains("open")));
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&ftoc.classList.contains("open")) ftOpen(false); });
 
   function applyF(){
     const on=anyF(); let n=0; const per=new Array(P.length).fill(0);
@@ -340,7 +407,7 @@ function setupSearch(POS,PK){
     links.forEach(a=>{ const i=+a.dataset.id.slice(1)-1; a.classList.toggle("none",on&&!per[i]); a.querySelector("span").textContent=on?per[i]+"개":P[i][2]; });
     ftoc.querySelectorAll(".fr").forEach(b=>{ const f=b.dataset.f, c=W.filter(w=>w.fk===f&&okNoF(w)).length;
       b.classList.toggle("none",!c); b.setAttribute("aria-expanded",fF===f); b.nextElementSibling.hidden=fF!==f;
-      b.querySelector("span").textContent=(fT.size||fE.size||fC)?c:FM.get(f).n; });
+      b.querySelector("span").textContent=(fT.size||fE.size||fC||fO)?c:FM.get(f).n; });
     ftoc.querySelectorAll(".fsub button").forEach(b=>{ const c=W.filter(w=>w.fk===b.dataset.f&&w.i===+b.dataset.i&&okNoF(w)).length;
       b.classList.toggle("none",!c); b.querySelector("span").textContent=c; });
     fch.querySelectorAll(".cb").forEach(b=>b.setAttribute("aria-pressed",fC===b.dataset.c));
@@ -358,17 +425,17 @@ function setupSearch(POS,PK){
   ftoc.addEventListener("click",e=>{
     if(e.target.closest(".ft-x")){ ftOpen(false); return; }
     const s=e.target.closest(".fsub button");
-    if(s){ const ws=W.filter(w=>w.fk===s.dataset.f&&w.i===+s.dataset.i&&ok(w)).sort((a,b)=>a.y-b.y||a.x-b.x); if(ws.length) go({w:ws[0]},ws.slice(1)); return; }
+    if(s){ const ws=W.filter(w=>w.fk===s.dataset.f&&w.i===+s.dataset.i&&ok(w)).sort((a,b)=>a.y-b.y||a.x-b.x); if(ws.length){ if(narrow()) ftOpen(false); go({w:ws[0]},ws.slice(1)); } return; }
     const b=e.target.closest(".fr"); if(b) pickF(b.dataset.f);
   });
-  fc.addEventListener("click",e=>{ if(!e.target.closest("#frs")) return; fT.clear(); fE.clear(); fC=null; fF=null;
+  fc.addEventListener("click",e=>{ if(!e.target.closest("#frs")) return; fT.clear(); fE.clear(); fC=null; fF=null; fO=null;
     document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false")); applyF(); });
 
   /* ---- 검색 ---- */
   const MAX=150; let rows=[], sel=-1;
   const sortW=(a,b)=>TO[a.tier]-TO[b.tier]||a.ko.localeCompare(b.ko,"ko");
   const row=(w,n,raw,byName)=>{ const hl=w.ko.includes(raw)||!HZ||!w.ko.includes(HZ)?raw:HZ;
-    return `<li><button type="button" data-n="${n}"><span class="dot" style="background:${ELN[w.el][1]}"></span><span class="nm">${byName?mark(w.ko,hl):esc(w.ko)}<small>${GL[P[w.i][0]]} · ${P[w.i][1]} · ${ELN[w.el][0]} · ${esc(w.fk)}${byName&&w.e.includes(norm(raw))&&!w.k.includes(norm(raw))&&!(HZ&&w.ko.includes(HZ))?" · "+esc(w.en):""}</small></span><span class="tr t${w.tier}">${w.tier}</span></button></li>`; };
+    return `<li><button type="button" data-n="${n}"><span class="dot" style="background:${ELN[w.el][1]}"></span><span class="nm">${byName?mark(w.ko,hl):esc(w.ko)}<small>${GL[P[w.i][0]]} · ${P[w.i][1]} · ${ELN[w.el][0]} · ${esc(w.fk)}${byName&&w.e.includes(norm(raw))&&!w.k.includes(norm(raw))&&!(HZ&&w.ko.includes(HZ))?" · "+esc(w.en):""}</small></span>${w.own&&w.own.length?`<span class="ownm">${w.god?"★ ":""}보유 ${w.own.length}</span>`:""}<span class="tr t${w.tier}">${w.tier}</span></button></li>`; };
   let HZ="", KS="";
   /* 검색어와 맞는지: 그대로 / 영문 이름 / (영문 자판으로 친 한글) 키 입력 비교 */
   /* 키 입력 일치는 글자 경계가 맞을 때만 (예: 'qnf'=불 → 불멸자 O, 부름 X / 'rPwj'=계저 → 계절 O) */
@@ -423,11 +490,200 @@ function setupSearch(POS,PK){
   });
   ul.addEventListener("click",e=>{ const b=e.target.closest("button"); if(b){ sel=+b.dataset.n; mk(); go(rows[sel]); } });
   applyF();
+  return {W,secs,pct,esc,applyF,GL,ELN,CHS,getOwn:()=>fO,setOwn:v=>{ fO=v; applyF(); }};
+}
+
+/* ---- 내 보관함 (번지 로그인 연동) ----
+   bungie.net/en/Application 에 앱을 등록한 뒤 아래 두 값을 채우면 켜집니다.
+   API 키와 클라이언트 번호는 앱에 등록한 주소에서만 쓸 수 있어서 코드에 공개돼도 괜찮습니다. */
+const BUNGIE={apiKey:"",clientId:""};
+const KEY_ALIAS={"ancillary ordnance":"ancillary ordinance"};
+const normKey=s=>{ const k=String(s||"").toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g," ").trim(); return KEY_ALIAS[k]||k; };
+function setupVault(api){
+  const box=document.getElementById("vault"), esc=api.esc;
+  const mk=name=>{ let S=null; try{ S=window[name]; }catch(e){}
+    return {get:k=>{ try{ return JSON.parse(S.getItem(k)); }catch(e){ return null; } }, set:(k,v)=>{ try{ S.setItem(k,JSON.stringify(v)); }catch(e){} }, del:k=>{ try{ S.removeItem(k); }catch(e){} }}; };
+  const LS=mk("localStorage"), SS=mk("sessionStorage");
+  const MOCK=window.__D2MOCK||null;
+  const ready=!!(MOCK||(BUNGIE.apiKey&&BUNGIE.clientId));
+  const head=`<div class="fl-t">내 보관함 비교</div>`;
+  let D=null, EN2KO={}, last=null;
+  const pop=document.createElement("div"); pop.className="ownp"; pop.setAttribute("role","dialog"); document.body.appendChild(pop);
+
+  function viewOff(){ box.innerHTML=head+"번지 로그인 연동을 준비 중이에요."; }
+  function viewBusy(t){ box.innerHTML=head+esc(t); }
+  function viewOut(msg){
+    box.innerHTML=head+(msg?`<div class="err">${esc(msg)}</div>`:"")+`내 무기와 추천 특성을 표에 바로 표시해요.
+      <button type="button" class="vb" id="vlogin">번지 계정으로 로그인</button>
+      <small>보관함 정보는 이 화면에서만 쓰고 따로 저장하거나 다른 곳으로 보내지 않아요. 로그인은 약 1시간 유지돼요.</small>`;
+    box.querySelector("#vlogin").onclick=login;
+  }
+  function viewIn(){
+    const W=api.W, own=W.filter(w=>w.own&&w.own.length).length, god=W.filter(w=>w.god).length, fo=api.getOwn();
+    box.innerHTML=head+`표 무기 ${W.length}개 중 <b>${own}</b>개 보유 · ★ 추천 조합 <b>${god}</b>개<br><span style="font-size:11px">${esc(last.name)} · ${last.time} 기준</span>
+      <div class="chips">${[["own","보유"],["not","미보유"],["god","★ 추천 조합"]].map(([v,l])=>`<button type="button" class="chip" data-o="${v}" aria-pressed="${fo===v}">${l}</button>`).join("")}</div>
+      <div class="vs"><button type="button" id="vre">새로고침</button><button type="button" id="vout">로그아웃</button></div>
+      <small>표의 초록 동그라미는 보유 개수, 노란 동그라미는 추천 3열·4열 특성을 모두 가진 무기예요. 동그라미를 누르면 내 무기 특성을 비교해 볼 수 있어요.</small>`;
+    box.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{ const v=b.dataset.o; api.setOwn(api.getOwn()===v?null:v); viewIn(); });
+    box.querySelector("#vre").onclick=()=>{ const t=LS.get("d2tok"); if(MOCK||(t&&t.exp>Date.now()+60000)) load(t||{}); else { LS.del("d2tok"); viewOut("로그인 시간이 지났어요. 다시 로그인해 주세요."); } };
+    box.querySelector("#vout").onclick=logout;
+  }
+
+  function login(){
+    const st=Array.from(crypto.getRandomValues(new Uint32Array(2))).join("-"); SS.set("d2state",st);
+    location.href=`https://www.bungie.net/ko/OAuth/Authorize?client_id=${encodeURIComponent(BUNGIE.clientId)}&response_type=code&state=${st}`;
+  }
+  async function exchange(code){
+    viewBusy("번지 로그인 확인 중…");
+    const r=await fetch("https://www.bungie.net/platform/app/oauth/token/",{method:"POST",headers:{"X-API-Key":BUNGIE.apiKey},
+      body:new URLSearchParams({grant_type:"authorization_code",code,client_id:BUNGIE.clientId})});
+    const j=await r.json().catch(()=>null);
+    if(!r.ok||!j||!j.access_token) throw new Error((j&&(j.error_description||j.error))||("HTTP "+r.status));
+    const t={at:j.access_token,exp:Date.now()+(j.expires_in||3600)*1000}; LS.set("d2tok",t); return t;
+  }
+  async function bget(path,t){
+    const r=await fetch("https://www.bungie.net/Platform"+path,{headers:{"X-API-Key":BUNGIE.apiKey,"Authorization":"Bearer "+t.at}});
+    const j=await r.json().catch(()=>null);
+    if(!j||j.ErrorCode!==1){ const e=new Error((j&&(j.ErrorStatus+": "+j.Message))||("HTTP "+r.status)); e.auth=r.status===401||(j&&[99,2101,2102,2106,2107,2108,2111].includes(j.ErrorCode)); throw e; }
+    return j.Response;
+  }
+  async function load(t){
+    try{
+      viewBusy("보관함 불러오는 중…");
+      if(!D){ D=await fetch("d2data.json").then(r=>{ if(!r.ok) throw new Error("비교 데이터(d2data.json)를 불러오지 못했어요"); return r.json(); });
+        D.pn.forEach(([ko,en])=>{ EN2KO[normKey(en)]=ko; }); }
+      const m=MOCK?MOCK.m:await bget("/User/GetMembershipsForCurrentUser/",t);
+      const ms=m.destinyMemberships||[];
+      const mm=ms.find(x=>x.membershipId===m.primaryMembershipId)||ms.find(x=>!x.crossSaveOverride||x.crossSaveOverride===x.membershipType)||ms[0];
+      if(!mm) throw new Error("이 번지 계정에서 데스티니 2 캐릭터를 찾지 못했어요");
+      const p=MOCK?MOCK.p:await bget(`/Destiny2/${mm.membershipType}/Profile/${mm.membershipId}/?components=102,201,205,305,310`,t);
+      apply(p);
+      last={name:mm.bungieGlobalDisplayName||mm.displayName||"내 계정",time:new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"})};
+      viewIn();
+    }catch(e){
+      console.error(e);
+      if(e.auth){ LS.del("d2tok"); viewOut("로그인 시간이 지났어요. 다시 로그인해 주세요."); }
+      else viewOut("불러오기 실패: "+e.message);
+    }
+  }
+  /* 보관함 무기 → 티어표 칸에 연결하고, 칸마다 추천 특성(3열·4열)과 비교 */
+  function apply(p){
+    const H2N={}; for(const [n,hs] of Object.entries(D.weapons)) for(const h of hs) H2N[h]=n;
+    const items=[]; const add=(arr,loc)=>(arr||[]).forEach(it=>{ if(H2N[it.itemHash]&&it.itemInstanceId) items.push([it,loc]); });
+    add(p.profileInventory&&p.profileInventory.data&&p.profileInventory.data.items,"금고");
+    Object.values((p.characterInventories&&p.characterInventories.data)||{}).forEach(c=>add(c.items,"캐릭터"));
+    Object.values((p.characterEquipment&&p.characterEquipment.data)||{}).forEach(c=>add(c.items,"장착 중"));
+    const IC=p.itemComponents||{}, SK=(IC.sockets&&IC.sockets.data)||{}, RP=(IC.reusablePlugs&&IC.reusablePlugs.data)||{};
+    const pname=h=>{ const ix=D.ph[h]; return ix==null?null:D.pn[ix]; };
+    const byName={};
+    for(const [it,loc] of items){
+      const id=it.itemInstanceId, socks=(SK[id]&&SK[id].sockets)||[], reus=(RP[id]&&RP[id].plugs)||{};
+      const cols=[], org=[], all=new Set();
+      socks.forEach((s,si)=>{
+        const hs=new Set(); if(s.plugHash) hs.add(s.plugHash); (reus[si]||[]).forEach(x=>hs.add(x.plugItemHash));
+        const cur=pname(s.plugHash), curK=cur?normKey(cur[1]):null, ps=[], seen=new Set();
+        hs.forEach(h=>{ const pn=pname(h); if(!pn) return; const k=normKey(pn[1]); if(seen.has(k)) return; seen.add(k); ps.push({ko:pn[0],k,kind:pn[2],on:k===curK}); });
+        if(!ps.length) return;
+        if(ps.every(x=>x.kind==="O")) org.push(...ps); else { const tr=ps.filter(x=>x.kind==="T"); if(tr.length) cols.push(tr); }
+        ps.forEach(x=>all.add(x.k));
+      });
+      const n=H2N[it.itemHash]; (byName[n]=byName[n]||[]).push({loc,cols,org,all});
+    }
+    api.W.forEach(w=>{
+      const card=(D.cards[w.i]||[])[w.j], okc=card&&card[0]===w.en, own=byName[w.en]||[];
+      w.r3=okc?card[1].map(normKey):[]; w.r4=okc?card[2].map(normKey):[];
+      own.forEach(c=>{ c.m=[w.r3.findIndex(k=>c.all.has(k)),w.r4.findIndex(k=>c.all.has(k))]; });
+      w.own=own; w.god=own.some(c=>c.m[0]>=0&&c.m[1]>=0);
+    });
+    drawBadges(); api.applyF();
+  }
+  function drawBadges(){
+    document.querySelectorAll(".ownb").forEach(b=>b.remove());
+    api.W.forEach(w=>{ if(!w.own||!w.own.length) return;
+      const b=document.createElement("button"); b.type="button"; b.className="ownb"+(w.god?" god":"");
+      b.style.left=(w.x/850*100)+"%"; b.style.top=(w.y/w.H*100)+"%"; b.textContent=w.own.length>9?"9+":w.own.length;
+      b.setAttribute("aria-label",`${w.ko} 보유 ${w.own.length}개${w.god?", 추천 조합 있음":""}, 내 무기 특성 보기`);
+      b.onclick=e=>{ e.stopPropagation(); openPop(w,b); };
+      api.secs[w.i].appendChild(b); });
+  }
+  const score=c=>(c.m[0]===0)+(c.m[1]===0)+(c.m[0]>=0)+(c.m[1]>=0);
+  function openPop(w,anchor){
+    const ko=k=>EN2KO[k]||k;
+    const recLine=(arr,lab)=>arr.length?`<div>${lab} ${arr.map((k,n)=>`<span class="pk ${n?"r1":"r0"}">${n?"○ ":"◉ "}${esc(ko(k))}</span>`).join("")}</div>`:"";
+    const pk=x=>{ const a=w.r3.indexOf(x.k), b=w.r4.indexOf(x.k), r=(a===0||b===0)?"r0":(a>0||b>0)?"r1":"";
+      return `<span class="pk ${r}${x.on?" on":""}">${r==="r0"?"◉ ":r==="r1"?"○ ":""}${esc(x.ko)}</span>`; };
+    const grade=c=>c.m[0]>=0&&c.m[1]>=0?["g2","★ 추천 조합"]:(c.m[0]>=0||c.m[1]>=0)?["g1","추천 1개"]:["g0","추천 특성 없음"];
+    pop.innerHTML=`<button type="button" class="x" aria-label="닫기">×</button><h3>${esc(w.ko)}</h3><div class="sub">${esc(w.en)} · 내 보유 ${w.own.length}개</div>
+      <div class="rec">${recLine(w.r3,"추천 3열")}${recLine(w.r4,"추천 4열")}</div>`+
+      [...w.own].sort((a,b)=>score(b)-score(a)).map((c,n)=>{ const g=grade(c);
+        return `<div class="cp"><div class="cl"><span>${n+1}. ${c.loc}</span><em class="${g[0]}">${g[1]}</em></div>`+
+          c.cols.map((col,ci)=>`<div class="rw"><i>${ci+3}열</i><div>${col.map(pk).join("")}</div></div>`).join("")+
+          (c.org.length?`<div class="rw"><i>기원</i><div>${c.org.map(pk).join("")}</div></div>`:"")+`</div>`; }).join("")+
+      `<div class="sub" style="margin-top:6px">◉ 추천 · ○ 좋은 대안 · 밑줄 = 지금 장착된 특성</div>`;
+    pop.style.borderTopColor=w.god?"#f2c230":"#2e9e5b";
+    pop.classList.add("show");
+    const r=anchor.getBoundingClientRect(), pw=pop.offsetWidth, ph=pop.offsetHeight;
+    let x=r.right+8, y=r.top; if(x+pw>innerWidth-16) x=r.left-8-pw; if(x<16) x=16; if(y+ph>innerHeight-16) y=innerHeight-16-ph; if(y<16) y=16;
+    pop.style.left=x+"px"; pop.style.top=y+"px";
+    pop.querySelector(".x").onclick=()=>pop.classList.remove("show");
+  }
+  document.addEventListener("click",e=>{ if(!e.target.closest(".ownp,.ownb")) pop.classList.remove("show"); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape") pop.classList.remove("show"); });
+  addEventListener("scroll",()=>pop.classList.remove("show"),{passive:true});
+  function logout(){
+    LS.del("d2tok"); api.W.forEach(w=>{ w.own=null; w.god=false; });
+    document.querySelectorAll(".ownb").forEach(b=>b.remove()); pop.classList.remove("show");
+    if(api.getOwn()) api.setOwn(null); else api.applyF(); viewOut();
+  }
+
+  if(!ready){ viewOff(); return; }
+  if(MOCK){ load({}); return; }
+  const u=new URL(location.href), code=u.searchParams.get("code"), st=u.searchParams.get("state");
+  if(code){
+    u.searchParams.delete("code"); u.searchParams.delete("state"); history.replaceState(null,"",u.pathname+u.search+u.hash);
+    if(!st||st!==SS.get("d2state")){ viewOut("로그인 확인값이 맞지 않아요. 다시 로그인해 주세요."); return; }
+    SS.del("d2state"); exchange(code).then(load).catch(e=>viewOut("로그인 실패: "+e.message)); return;
+  }
+  const t=LS.get("d2tok"); if(t&&t.exp>Date.now()+60000) load(t); else { if(t) LS.del("d2tok"); viewOut(); }
+}
+
+/* ---- Clarity 커뮤니티 연구 수치 ----
+   영문 원문을 고치지 않고 그대로 보여 줌. 최신본 유지 조건 때문에 페이지를 열 때마다 Clarity 저장소에서 직접 읽어 옴.
+   이용 조건: https://www.d2clarity.com/partnerships (사용자 150명 이하는 출처·제보 링크 표기로 사용 가능) */
+const CLARITY_URL="https://database-clarity.github.io/Live-Clarity-Database/descriptions/dim.json";
+let CLP=null;
+function loadClarity(){
+  if(CLP) return CLP;
+  CLP=Promise.all([
+    fetch(CLARITY_URL).then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }),
+    fetch("d2data.json").then(r=>r.ok?r.json():null).catch(()=>null)
+  ]).then(([c,d])=>{
+    const byName=new Map(), byItem=new Map();
+    const rank=e=>JSON.stringify(e.descriptions).includes("enhancedArrow")?2:1;   /* 강화 특성 정보까지 있는 쪽 우선 */
+    Object.values(c).forEach(e=>{ if(!e.descriptions||!e.descriptions.en) return; const k=normKey(e.name);
+      if(e.itemHash){ byItem.set(e.itemHash+"|"+k,e); return; }                   /* 특정 무기 전용 버전 */
+      const cur=byName.get(k); if(!cur||rank(e)>rank(cur)) byName.set(k,e); });
+    return {byName,byItem,W:(d&&d.weapons)||{}};
+  }).catch(e=>{ console.warn("Clarity 불러오기 실패",e); return {byName:new Map(),byItem:new Map(),W:{}}; });
+  return CLP;
+}
+const CL_COL={solar:"#f08a3c",arc:"#7ad7f0",void:"#b98ae8",stasis:"#5c8df0",strand:"#4fd38a",kinetic:"#d9dbe4",
+  primary:"#f2f2f2",special:"#8fdc6a",heavy:"#c9a7f2",barrier:"#6fb6ff",overload:"#c48bff",unstoppable:"#ff9b4a"};
+function clarityHTML(e){
+  const es=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  return e.descriptions.en.map(l=>{
+    const lc=l.classNames||[];
+    if(lc.includes("spacer")) return `<div class="sp"></div>`;
+    const inner=(l.linesContent||[]).map(s=>{ const c=s.classNames||[]; let pre="";
+      c.forEach(n=>{ if(n==="enhancedArrow") pre+=`<i class="ea" title="강화 특성">▲</i>`; else if(CL_COL[n]) pre+=`<i class="ce" style="background:${CL_COL[n]}" title="${n}"></i>`; });
+      const t=es(s.text||""); return pre+(c.includes("bold")?`<b>${t}</b>`:t); }).join("");
+    return `<div${lc.includes("bold")?' class="bl"':""}>${inner}</div>`;
+  }).join("");
 }
 
 /* ---- 특성 설명 창 ---- */
 const tip=document.createElement("div"); tip.className="tip"; tip.setAttribute("role","tooltip");
-tip.innerHTML=`<button class="tx" type="button" aria-label="닫기">×</button><div class="th"><div class="ti"></div><div><div class="tn"></div><div class="tt"></div></div></div><div class="td"></div>`;
+tip.innerHTML=`<button class="tx" type="button" aria-label="닫기">×</button><div class="th"><div class="ti"></div><div><div class="tn"></div><div class="tt"></div></div></div><div class="td"></div><div class="tc"></div><div class="to"></div>`;
 document.body.appendChild(tip);
 const COL={primary:"var(--primary)",special:"var(--special)",heavy:"var(--heavy)"};
 let pinned=null;
@@ -438,8 +694,40 @@ function place(btn){
   if(y+th>vh-16) y=r.top-8-th; if(y<16) y=16;
   tip.style.left=x+"px"; tip.style.top=y+"px";
 }
+/* ---- 무기 획득처 (무기 이름 부분에 마우스) ----
+   sources.json = 번지 공식 컬렉션 획득처 문구, 획득처_직접입력.txt = 공식 문구가 없는 무기에 직접 적은 문구 */
+let APIG=null, SRC=null, SRCM={};
+function parseManual(t){
+  const m={};
+  String(t||"").split(/\r?\n/).forEach(l=>{ const s=l.trim(); if(!s||s.startsWith("#")) return;
+    const c=s.split("|").map(x=>x.trim()); if(c.length<5) return;
+    const en=c[0], v=c.slice(4).join("|").trim(); if(en&&v) (m[en]=m[en]||[]).push(v); });
+  return m;
+}
+function showW(btn){
+  const w=btn._w, A=APIG;
+  tip.querySelector(".tn").textContent=w.ko;
+  tip.querySelector(".tt").textContent=`${A.GL[P[w.i][0]]} · ${P[w.i][1]} · ${A.ELN[w.el][0]} · ${w.fk}`;
+  const off=(SRC&&SRC[w.en])||[], man=SRCM[w.en]||[], lines=[];
+  lines.push(...off);
+  if(off.length>1) lines.push("(같은 무기의 여러 버전 획득처예요. 위쪽이 최근 버전)");
+  man.forEach(s=>lines.push(s+" (직접 입력)"));
+  if(!lines.length) lines.push(w.src?`출처: ${w.src} (표에 적힌 획득처)`:"획득처 정보가 없어요.");
+  lines.push("",`티어 ${w.tier} · ${A.CHS[w.ch]?A.CHS[w.ch][0]+" 용사 대응":"용사 대응 정보 없음"}`);
+  tip.querySelector(".td").textContent=lines.join("\n");
+  const ti=tip.querySelector(".ti");
+  if(w.ic){ const [ix,iy,iw]=w.ic, s=40/iw, img=A.secs[w.i].querySelector("img");
+    ti.style.backgroundImage=`url(${img.getAttribute("src")})`; ti.style.backgroundSize=`${850*s}px ${w.H*s}px`; ti.style.backgroundPosition=`${-ix*s}px ${-iy*s}px`;
+    ti.style.visibility="visible"; ti.style.borderRadius="4px"; } else ti.style.visibility="hidden";
+  tip.style.setProperty("--tc",COL[P[w.i][0]]);
+  tip.querySelector(".tc").innerHTML=""; tip._cur=btn;
+  tip.querySelector(".to").textContent=w.own&&w.own.length?`내 보유: ${w.own.length}개${w.god?" · ★ 추천 조합 있음":""}`:"";
+  tip.classList.add("show"); place(btn);
+}
 function show(btn){
+  if(btn._wh){ showW(btn); return; }
   const d=btn._d;
+  tip.querySelector(".ti").style.borderRadius="";
   tip.querySelector(".tn").textContent=d.name;
   tip.querySelector(".tt").textContent=d.type||"";
   tip.querySelector(".td").textContent=d.desc||"설명 정보가 없습니다.";
@@ -448,6 +736,19 @@ function show(btn){
     ti.style.backgroundImage=`url(${img.getAttribute("src")})`; ti.style.backgroundSize=`${850*s}px ${d.H*s}px`; ti.style.backgroundPosition=`${-ix*s}px ${-iy*s}px`; ti.style.visibility="visible";
   } else ti.style.visibility="hidden";
   tip.style.setProperty("--tc",COL[d.cat]);
+  /* 내 보관함을 불러왔으면: 이 무기 보유분 중 이 특성이 있는 개수 */
+  const w=btn._w, to=tip.querySelector(".to");
+  if(w&&w.own&&w.own.length){ const k=normKey(btn._k), n=w.own.filter(c=>c.all.has(k)).length;
+    to.textContent=n?`내 보유: 이 무기 ${w.own.length}개 중 ${n}개에 이 특성이 있어요`:`내 보유: 이 무기 ${w.own.length}개 모두 이 특성이 없어요`; }
+  else to.textContent="";
+  /* Clarity 수치: 읽어 온 뒤 이 설명창이 아직 같은 특성을 보여 주고 있을 때만 붙임 */
+  const tc=tip.querySelector(".tc"); tc.innerHTML=""; tip._cur=btn;
+  if(btn._k){ const k=normKey(btn._k);
+    loadClarity().then(C=>{ if(tip._cur!==btn) return;
+      let e=null; if(w&&C.W[w.en]) for(const h of C.W[w.en]){ e=C.byItem.get(h+"|"+k); if(e) break; }
+      e=e||C.byName.get(k);
+      tc.innerHTML=e?`<div class="ch">Clarity 커뮤니티 연구 · 영문 원문</div>`+clarityHTML(e):"";
+      if(tip.classList.contains("show")) place(btn); }); }
   tip.classList.add("show"); place(btn);
 }
 function hide(){ if(pinned){pinned.classList.remove("on"); pinned=null;} tip.classList.remove("show","pinned"); }
@@ -458,26 +759,38 @@ addEventListener("scroll",()=>{ if(pinned) place(pinned); else tip.classList.rem
 
 Promise.all([fetch("pos.json").then(r=>r.json()),fetch("perks.json").then(r=>r.json())]).then(([POS,PK0])=>{
   const PKL=Object.fromEntries(Object.entries(PK0).map(([k,v])=>[k.toLowerCase(),v])); const PK=new Proxy(PK0,{get:(o,k)=>o[k]||PKL[String(k).toLowerCase()]});
-  setupSearch(POS,PK);
+  const API=setupSearch(POS,PK); APIG=API;
+  fetch("sources.json").then(r=>r.ok?r.json():{}).then(j=>{ SRC=j; }).catch(()=>{ SRC={}; });
+  fetch(encodeURI("획득처_직접입력.txt")).then(r=>r.ok?r.text():"").then(t=>{ SRCM=parseManual(t); }).catch(()=>{});
+  const wire=b=>{
+    b.addEventListener("mouseenter",()=>{ if(!pinned) show(b); });
+    b.addEventListener("mouseleave",()=>{ if(!pinned) tip.classList.remove("show"); });
+    b.addEventListener("focus",()=>{ if(!pinned) show(b); });
+    b.addEventListener("blur",()=>{ if(!pinned) tip.classList.remove("show"); });
+    b.addEventListener("click",e=>{ e.stopPropagation(); if(pinned===b){hide();return;} if(pinned) pinned.classList.remove("on"); pinned=b; b.classList.add("on"); show(b); tip.classList.add("pinned"); });
+  };
+  const rect=(b,x,y,w,h,H)=>{ b.style.left=(x/850*100)+"%"; b.style.top=(y/H*100)+"%"; b.style.width=(w/850*100)+"%"; b.style.height=(h/H*100)+"%"; };
   document.querySelectorAll(".pg").forEach((sec,i)=>{
     const [H,list]=POS[i], cat=P[i][0]; sec.classList.add(cat);
     const frag=document.createDocumentFragment();
+    /* 무기 이름·아이콘 부분 → 획득처 */
+    API.W.filter(o=>o.i===i&&o.hd).forEach(o=>{
+      const b=document.createElement("button"); b.type="button"; b.className="hs whs"; rect(b,o.hd.x,o.hd.y,o.hd.w,o.hd.h,H);
+      b.setAttribute("aria-label",o.ko+" 획득처 보기"); b._wh=true; b._w=o; wire(b); frag.appendChild(b);
+    });
     list.forEach(([k,x,y,w,h,ix,iy,iw,ih])=>{
       const info=PK[k]; if(!info) return;
-      const b=document.createElement("button"); b.type="button"; b.className="hs";
-      b.style.left=(x/850*100)+"%"; b.style.top=(y/H*100)+"%"; b.style.width=(w/850*100)+"%"; b.style.height=(h/H*100)+"%";
+      const b=document.createElement("button"); b.type="button"; b.className="hs"; rect(b,x,y,w,h,H);
       b.setAttribute("aria-label",info.name+" 설명 보기");
       b._d={name:info.name,type:info.type,desc:info.desc,cat,H,icon:iw?[ix,iy,iw,ih]:null};
-      b.addEventListener("mouseenter",()=>{ if(!pinned) show(b); });
-      b.addEventListener("mouseleave",()=>{ if(!pinned) tip.classList.remove("show"); });
-      b.addEventListener("focus",()=>{ if(!pinned) show(b); });
-      b.addEventListener("blur",()=>{ if(!pinned) tip.classList.remove("show"); });
-      b.addEventListener("click",e=>{ e.stopPropagation(); if(pinned===b){hide();return;} if(pinned) pinned.classList.remove("on"); pinned=b; b.classList.add("on"); show(b); tip.classList.add("pinned"); });
-      frag.appendChild(b);
+      const cx=x+w/2, cy=y+h/2; b._k=k; b._w=API.W.find(o=>o.i===i&&cx>=o.x&&cx<=o.x+o.w&&cy>=o.y&&cy<=o.y+o.h)||null;
+      wire(b); frag.appendChild(b);
     });
     sec.appendChild(frag);
   });
-}).catch(()=>{});
+  setupVault(API);
+  setTimeout(loadClarity,1500);   /* 첫 설명창이 늦지 않게 미리 받아 둠 */
+}).catch(e=>{ console.error(e); });
 </script>
 
 </html>
